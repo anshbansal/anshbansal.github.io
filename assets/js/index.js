@@ -1,3 +1,17 @@
+var hrefs = [
+    "https://bitbucket.org/anshbansal92/",
+    "https://gitlab.com/u/asmbansal2",
+    "https://github.com/anshbansal",
+    "https://www.linkedin.com/in/bansalaseem",
+    "https://www.kaggle.com/anshbansal",
+    "https://www.twitter.com/AseemBansal2",
+    "https://anshbansal.wordpress.com/"
+];
+
+var hrefMapping = {
+    "anshbansal.wordpress.com": "wordpress.com"
+};
+
 function extractDomain(url) {
     var domain;
     //find & remove protocol (http, ftp, etc.) and get domain
@@ -14,16 +28,13 @@ function extractDomain(url) {
     return domain;
 }
 
-var codingHrefs = [
-    "https://github.com/anshbansal",
-    "https://gitlab.com/u/asmbansal2",
-    "https://bitbucket.org/anshbansal92/"
-];
-
-var socialHrefs = [
-    "https://www.twitter.com/AseemBansal2",
-    "https://www.linkedin.com/in/bansalaseem"
-];
+function getFaviconUrl(href) {
+    var domain = extractDomain(href);
+    if (domain in hrefMapping) {
+        domain = hrefMapping[domain];
+    }
+    return "https://" + domain + "/favicon.ico"
+}
 
 $(function () {
 
@@ -32,7 +43,7 @@ $(function () {
     function htmlForIcon(href) {
         return iconTemplate({
             href: href,
-            iconUrl: "https://" + extractDomain(href) + "/favicon.ico"
+            iconUrl: getFaviconUrl(href)
         });
     }
 
@@ -43,8 +54,7 @@ $(function () {
     }
 
     function main() {
-        appendIconsTo(codingHrefs, $("#coding-icons"));
-        appendIconsTo(socialHrefs, $("#social-icons"));
+        appendIconsTo(hrefs, $("#icons"));
     }
 
     main();
