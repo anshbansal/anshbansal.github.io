@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="bower_installed/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="bower_installed/bootstrap-year-calendar/css/bootstrap-year-calendar.min.css"/>
+        <link rel="stylesheet" href="assets/stylesheet/data.css"/>
+
+        <script type="text/template" id="radio-template">
+            <label>
+                <input type="radio" name="which" value="<%=value%>"> <%=value%>
+            </label>
+        </script>
+    </head>
+    <body>
+
+        <div id="radios"></div>
+        <ul class="nav nav-tabs" data-tabs="tabs">
+            <li role="presentation">
+                <a href="#calendar-view" role="tab" data-toggle="tab">Calendar</a>
+            </li>
+            <li role="presentation" class="active">
+                <a href="#chart-view" role="tab" data-toggle="tab">Chart</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="calendar-view" class="tab-pane">
+                <!--<div class="container" id="success-container">-->
+                    <!--<div class="row">-->
+                        <!--<span class="col-md-offset-4 col-md-2">Days till Next</span>-->
+                        <!--<span class="col-md-2" id="days-till-next"></span>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<span class="col-md-offset-4 col-md-2">Days till</span>-->
+                        <!--<span class="col-md-2" id="days-till"></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div id="calendar"></div>
+            </div>
+            <div id="chart-view" class="tab-pane active">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6" id="chart-7"></div>
+                        <div class="col-md-6" id="chart-15"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="chart-30"></div>
+                        <div class="col-md-6" id="chart-60"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="bower_installed/jquery/js/jquery.min.js"></script>
+        <script src="bower_installed/bootstrap/js/bootstrap.min.js"></script>
+        <script src="bower_installed/bootstrap-year-calendar/js/bootstrap-year-calendar.min.js"></script>
+        <script src="bower_installed/moment/js/moment.min.js"></script>
+        <script src="bower_installed/underscore/js/underscore-min.js"></script>
+        <script src="bower_installed/highcharts/js/highcharts.js"></script>
+        <script src="../data.js"></script>
+        <script src="assets/js/success.js"></script>
+        <script>
+            function main() {
+                $('#calendar').calendar({
+                    customDayRenderer: customRenderer,
+                    renderEnd: function (year) {
+                        var currentYear = year.currentYear;
+                        _.each($(".month-title"), function (elem) {
+                            var $elem = $(elem);
+                            var monthText = $elem.text();
+                            var currentMonth = moment.months().indexOf(monthText) + 1;
+
+                            var rate = "" + rate_for(currentYear, currentMonth);
+                            if (rate != '') {
+                                $elem.text(monthText + " " + rate.substring(0, 5) + " %");
+                            }
+                        });
+                    }
+                });
+
+//                _.each({
+//                    "#days-till-next": "2016-07-17",
+//                    "#days-till": "2017-10-26"
+//                }, function (date, selector) {
+//                    $(selector).html(days_from_now(date));
+//                });
+
+                $("#nav-tabs a").click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+
+                _.each([7, 15, 30, 60], function (e) {
+                    $("#chart-" + e).highcharts(getChartDetails(e));
+                });
+            }
+
+            function showRadios() {
+                var radios = $("#radios");
+                var radioTemplate = _.template($("#radio-template").html());
+                _.each(_.keys(all_data), function (it) {
+                    radios.append(radioTemplate({value: it}));
+                });
+            }
+
+            function setup() {
+                success = all_data.overall.success;
+                failure = all_data.overall.failure;
+                showRadios();
+
+                $('input:radio[name="which"]').change(function () {
+                    var obj = eval("all_data." + $(this).val());
+                    success = obj.success;
+                    failure = obj.failure;
+
+                    main();
+                });
+                main();
+            }
+
+            var success;
+            var failure;
+            setup();
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "anshbansal.github.io",
+  "version": "0.0.0",
+  "homepage": "https://github.com/anshbansal/anshbansal.github.io",
+  "authors": [
+    "Aseem Bansal <aseembansal@live.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "timer.js": "https://github.com/husa/timer.js.git#^1.0.4",
+    "bootstrap": "^3.3.6",
+    "bootstrap-year-calendar": "git@github.com:Paul-DS/bootstrap-year-calendar.git#~1.1.0",
+    "moment": "^2.14.1",
+    "underscore": "^1.8.3",
+    "highcharts-release": "^4.2.5"
+  },
+  "install": {
+    "base": "bower_installed",
+    "path" : {
+      "js": "{name}/js",
+      "css": "{name}/css",
+      "eot": "{name}/fonts",
+      "svg": "{name}/fonts",
+      "ttf": "{name}/fonts",
+      "woff": "{name}/fonts",
+      "woff2": "{name}/fonts"
+    },
+    "sources": {
+      "bootstrap": [
+        "bower_components/bootstrap/dist/css/bootstrap.min.css",
+        "bower_components/bootstrap/dist/js/bootstrap.min.js",
+        "bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff2",
+        "bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff",
+        "bower_components/bootstrap/fonts/glyphicons-halflings-regular.ttf"
+      ],
+      "bootstrap-year-calendar": [
+        "bower_components/bootstrap-year-calendar/css/bootstrap-year-calendar.min.css",
+        "bower_components/bootstrap-year-calendar/js/bootstrap-year-calendar.min.js"
+      ],
+      "jquery": "bower_components/jquery/dist/jquery.min.js",
+      "moment": "bower_components/moment/min/moment.min.js",
+      "underscore": "bower_components/underscore/underscore-min.js",
+      "timer.js": "bower_components/timer.js/dist/timer.min.js",
+      "highcharts-release": "bower_components/highcharts-release/highcharts.js"
+    }
+  }
+}

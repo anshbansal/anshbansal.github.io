@@ -1,0 +1,20 @@
+#success-container {
+  font-size: 23px;
+  margin-top: 10px; }
+
+.calendar {
+  overflow: hidden; }
+
+.success,
+.failure,
+.other {
+  border-radius: 0 !important;
+  color: #ffffff; }
+
+.success {
+  background-color: green !important; }
+
+.failure {
+  background-color: orange !important; }
+
+/*# sourceMappingURL=data.css.map */
