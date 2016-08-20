@@ -51,7 +51,7 @@ var hrefs = [
         link: "https://about.me/anshbansal"
     }
 ];
-var CLOUDINARY_PREFIX = "http://res.cloudinary.com/anshbansal/image/fetch/w_28,h_28/";
+var CLOUDINARY_PREFIX = "https://res.cloudinary.com/anshbansal/image/fetch/w_28,h_28/";
 
 function extractDomain(url) {
     var domain;
