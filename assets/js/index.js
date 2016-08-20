@@ -1,24 +1,57 @@
 var hrefs = [
-    "https://bitbucket.org/anshbansal92/",
-    "https://gitlab.com/u/asmbansal2",
-    "https://github.com/anshbansal",
-    "https://www.linkedin.com/in/bansalaseem",
-    "https://www.kaggle.com/anshbansal",
-    "https://www.twitter.com/AseemBansal2",
-    "https://anshbansal.wordpress.com/",
-    "https://programmingmadeagame.wordpress.com/",
-    "http://stackoverflow.com/users/2235567/aseem-bansal",
-    "https://www.codechef.com/users/anshbansal",
-    "https://en.gravatar.com/anshbansal92",
-    "http://www.goodreads.com/user/show/32696810-aseem-bansal",
-    "https://about.me/anshbansal"
+    {
+        link: "https://bitbucket.org/anshbansal92/",
+        iconClass: "fa fa-bitbucket"
+    },
+    {
+        link: "https://gitlab.com/u/asmbansal2",
+        iconClass: "fa fa-gitlab"
+    },
+    {
+        link: "https://github.com/anshbansal",
+        iconClass: "fa fa-github"
+    },
+    {
+        link: "https://www.linkedin.com/in/bansalaseem",
+        iconClass: "fa fa-linkedin"
+    },
+    {
+        link: "https://www.kaggle.com/anshbansal"
+    },
+    {
+        link: "https://www.twitter.com/AseemBansal2",
+        iconClass: "fa fa-twitter"
+    },
+    {
+        link: "https://anshbansal.wordpress.com/",
+        iconClass: "fa fa-wordpress"
+    },
+    {
+        link: "https://programmingmadeagame.wordpress.com/",
+        iconClass: "fa fa-wordpress"
+    },
+    {
+        link: "http://stackoverflow.com/users/2235567/aseem-bansal",
+        iconClass: "fa fa-stack-overflow"
+    },
+    {
+        link: "https://www.codechef.com/users/anshbansal",
+        image: "https://www.codechef.com/misc/favicon.ico"
+    },
+    {
+        link: "https://www.hackerrank.com/anshbansal222"
+    },
+    {
+        link: "https://en.gravatar.com/anshbansal92"
+    },
+    {
+        link: "http://www.goodreads.com/user/show/32696810-aseem-bansal"
+    },
+    {
+        link: "https://about.me/anshbansal"
+    }
 ];
-
-var hrefMapping = {
-    "anshbansal.wordpress.com": "https://wordpress.com/favicon.ico",
-    "programmingmadeagame.wordpress.com": "https://wordpress.com/favicon.ico",
-    "www.codechef.com": "https://www.codechef.com/misc/favicon.ico"
-};
+var CLOUDINARY_PREFIX = "http://res.cloudinary.com/anshbansal/image/fetch/w_28,h_28/";
 
 function extractDomain(url) {
     var domain;
@@ -36,11 +69,12 @@ function extractDomain(url) {
     return domain;
 }
 
+function hasImage(href) {
+    return _.isObject(href) && _.has(href, 'image');
+}
+
 function getFaviconUrl(href) {
-    var domain = extractDomain(href);
-    if (domain in hrefMapping) {
-        return hrefMapping[domain];
-    }
+    var domain = extractDomain(href['link']);
     return "https://" + domain + "/favicon.ico"
 }
 
@@ -49,9 +83,12 @@ $(function () {
     var iconTemplate = _.template($("#icon-template").html());
 
     function htmlForIcon(href) {
+        var link = href['link'];
+        var iconClass = href['iconClass'] || '';
         return iconTemplate({
-            href: href,
-            iconUrl: getFaviconUrl(href)
+            href: link,
+            iconClass: iconClass,
+            iconUrl: CLOUDINARY_PREFIX + (hasImage(href) ? href['image'] : getFaviconUrl(href))
         });
     }
 

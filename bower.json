@@ -19,11 +19,12 @@
     "bootstrap-year-calendar": "git@github.com:Paul-DS/bootstrap-year-calendar.git#~1.1.0",
     "moment": "^2.14.1",
     "underscore": "^1.8.3",
-    "highcharts-release": "^4.2.5"
+    "highcharts-release": "^4.2.5",
+    "font-awesome": "fontawesome#^4.6.3"
   },
   "install": {
     "base": "bower_installed",
-    "path" : {
+    "path": {
       "js": "{name}/js",
       "css": "{name}/css",
       "eot": "{name}/fonts",
@@ -48,7 +49,13 @@
       "moment": "bower_components/moment/min/moment.min.js",
       "underscore": "bower_components/underscore/underscore-min.js",
       "timer.js": "bower_components/timer.js/dist/timer.min.js",
-      "highcharts-release": "bower_components/highcharts-release/highcharts.js"
+      "highcharts-release": "bower_components/highcharts-release/highcharts.js",
+      "font-awesome": [
+        "bower_components/font-awesome/css/font-awesome.min.css",
+        "bower_components/font-awesome/fonts/fontawesome-webfont.woff",
+        "bower_components/font-awesome/fonts/fontawesome-webfont.woff2",
+        "bower_components/font-awesome/fonts/fontawesome-webfont.ttf"
+      ]
     }
   }
 }

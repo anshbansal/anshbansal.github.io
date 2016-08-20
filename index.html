@@ -5,19 +5,24 @@
         <title>Aseem Bansal</title>
 
         <link rel="stylesheet" href="bower_installed/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="bower_installed/font-awesome/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="assets/stylesheet/index.css">
     </head>
 
     <script type="text/template" id="icon-template">
         <a href="<%=href%>" class="icon">
-            <img src="<%=iconUrl%>" class="img-responsive">
+            <% if (iconClass) { %>
+                <i class="<%=iconClass%>"></i>
+            <% } else { %>
+                <img src="<%=iconUrl%>" class="img-responsive">
+            <% } %>
         </a>
     </script>
 
     <body>
 
 
-        <img src="https://avatars0.githubusercontent.com/u/4127841?v=3&s=180"
+        <img src="https://avatars0.githubusercontent.com/u/4127841?v=3&s=120"
              class="img-circle img-responsive center-block">
         <div class="text-center" id="name">Aseem Bansal</div>
 

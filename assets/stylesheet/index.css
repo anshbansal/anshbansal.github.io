@@ -10,6 +10,8 @@ img {
 
 .icon {
   display: inline-block; }
+  .icon i {
+    font-size: 2.3em; }
   .icon img {
     height: 2em !important; }
 
