@@ -5,11 +5,19 @@ var hrefs = [
     "https://www.linkedin.com/in/bansalaseem",
     "https://www.kaggle.com/anshbansal",
     "https://www.twitter.com/AseemBansal2",
-    "https://anshbansal.wordpress.com/"
+    "https://anshbansal.wordpress.com/",
+    "https://programmingmadeagame.wordpress.com/",
+    "http://stackoverflow.com/users/2235567/aseem-bansal",
+    "https://www.codechef.com/users/anshbansal",
+    "https://en.gravatar.com/anshbansal92",
+    "http://www.goodreads.com/user/show/32696810-aseem-bansal",
+    "https://about.me/anshbansal"
 ];
 
 var hrefMapping = {
-    "anshbansal.wordpress.com": "wordpress.com"
+    "anshbansal.wordpress.com": "https://wordpress.com/favicon.ico",
+    "programmingmadeagame.wordpress.com": "https://wordpress.com/favicon.ico",
+    "www.codechef.com": "https://www.codechef.com/misc/favicon.ico"
 };
 
 function extractDomain(url) {
@@ -31,7 +39,7 @@ function extractDomain(url) {
 function getFaviconUrl(href) {
     var domain = extractDomain(href);
     if (domain in hrefMapping) {
-        domain = hrefMapping[domain];
+        return hrefMapping[domain];
     }
     return "https://" + domain + "/favicon.ico"
 }
