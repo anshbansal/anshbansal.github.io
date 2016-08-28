@@ -9,7 +9,7 @@
 
         <script type="text/template" id="radio-template">
             <label>
-                <input type="radio" name="which" value="<%=value%>"> <%=value%>
+                <input type="radio" data-var-name="<%=var_name%>" name="which" value="<%=value%>"> <%=value%>
             </label>
         </script>
     </head>
@@ -26,16 +26,6 @@
         </ul>
         <div class="tab-content">
             <div id="calendar-view" class="tab-pane">
-                <!--<div class="container" id="success-container">-->
-                    <!--<div class="row">-->
-                        <!--<span class="col-md-offset-4 col-md-2">Days till Next</span>-->
-                        <!--<span class="col-md-2" id="days-till-next"></span>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                        <!--<span class="col-md-offset-4 col-md-2">Days till</span>-->
-                        <!--<span class="col-md-2" id="days-till"></span>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div id="calendar"></div>
             </div>
             <div id="chart-view" class="tab-pane active">
@@ -59,6 +49,7 @@
         <script src="bower_installed/underscore/js/underscore-min.js"></script>
         <script src="bower_installed/highcharts/js/highcharts.js"></script>
         <script src="../data.js"></script>
+        <script src="../data_archive.js"></script>
         <script src="assets/js/success.js"></script>
         <script>
             function main() {
@@ -79,13 +70,6 @@
                     }
                 });
 
-//                _.each({
-//                    "#days-till-next": "2016-07-17",
-//                    "#days-till": "2017-10-26"
-//                }, function (date, selector) {
-//                    $(selector).html(days_from_now(date));
-//                });
-
                 $("#nav-tabs a").click(function (e) {
                     e.preventDefault();
                     $(this).tab('show');
@@ -96,12 +80,17 @@
                 });
             }
 
-            function showRadios() {
+            function appendRadiosForData(data, var_name) {
                 var radios = $("#radios");
                 var radioTemplate = _.template($("#radio-template").html());
-                _.each(_.keys(all_data), function (it) {
-                    radios.append(radioTemplate({value: it}));
+                _.each(_.keys(data), function (it) {
+                    radios.append(radioTemplate({value: it, var_name: var_name}));
                 });
+            }
+
+            function showRadios() {
+                appendRadiosForData(all_data, "all_data");
+                appendRadiosForData(all_data_archive, "all_data_archive")
             }
 
             function setup() {
@@ -110,7 +99,8 @@
                 showRadios();
 
                 $('input:radio[name="which"]').change(function () {
-                    var obj = eval("all_data." + $(this).val());
+                    var $this = $(this);
+                    var obj = eval($this.data("var-name") + "." + $this.val());
                     success = obj.success;
                     failure = obj.failure;
 
