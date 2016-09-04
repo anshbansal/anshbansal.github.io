@@ -49,7 +49,7 @@
         <script src="bower_installed/underscore/js/underscore-min.js"></script>
         <script src="bower_installed/highcharts/js/highcharts.js"></script>
         <script src="../data.js"></script>
-        <script src="../data_archive.js"></script>
+        <script src="../call_data.js"></script>
         <script src="assets/js/success.js"></script>
         <script>
             function main() {
@@ -80,8 +80,7 @@
                 });
             }
 
-            function appendRadiosForData(data, var_name) {
-                var radios = $("#radios");
+            function appendRadiosForData(data, var_name, radios) {
                 var radioTemplate = _.template($("#radio-template").html());
                 _.each(_.keys(data), function (it) {
                     radios.append(radioTemplate({value: it, var_name: var_name}));
@@ -89,8 +88,8 @@
             }
 
             function showRadios() {
-                appendRadiosForData(all_data, "all_data");
-                appendRadiosForData(all_data_archive, "all_data_archive")
+                appendRadiosForData(all_data, "all_data", $("#radios"));
+                appendRadiosForData(call_data, "call_data", $("#radios"));
             }
 
             function setup() {
