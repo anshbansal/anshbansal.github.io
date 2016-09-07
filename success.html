@@ -50,6 +50,7 @@
         <script src="bower_installed/highcharts/js/highcharts.js"></script>
         <script src="../data/data.js"></script>
         <script src="../data/health.js"></script>
+        <script src="../data/learning.js"></script>
         <script src="../data/company.js"></script>
         <script src="../data/call_data.js"></script>
         <script src="assets/js/success.js"></script>
@@ -94,12 +95,13 @@
                 appendRadiosForData(health, "health", radios);
                 appendRadiosForData(company, "company", radios);
                 appendRadiosForData(other_data, "other_data", radios);
+                appendRadiosForData(learning, "learning", radios);
                 appendRadiosForData(call_data, "call_data", radios);
             }
 
             function setup() {
-                success = other_data.overall.success;
-                failure = other_data.overall.failure;
+                success = learning.overall.success;
+                failure = learning.overall.failure;
                 showRadios();
 
                 $('input:radio[name="which"]').change(function () {
