@@ -165,9 +165,10 @@
                                 var monthText = $elem.text();
                                 var currentMonth = moment.months().indexOf(monthText) + 1;
 
-                                var rate = "" + rate_for(currentYear, currentMonth);
-                                if (rate != '') {
-                                    $elem.text(monthText + " " + rate.substring(0, 5) + " %");
+                                var rate = getSuccessRateFor(currentYear, currentMonth);
+                                if (! _.isUndefined(rate)) {
+                                    var rateString = ("" + rate).substring(0, 5);
+                                    $elem.text(monthText + " " + rateString + " %");
                                 }
                             });
                         }
@@ -175,13 +176,17 @@
                 }
 
                 function getChartDetails(lookbackDays) {
+                    var successRate = getSuccessRateForPastNDays(lookbackDays);
+                    if (_.isUndefined(successRate)) {
+                        successRate = "-"
+                    }
                     return {
                         chart: {
                             type: 'area',
                             height: 300
                         },
                         title: {
-                            text: 'Success ' + successRate(lookbackDays) + "%"
+                            text: 'Success ' + successRate + "%"
                         },
                         plotOptions: {
                             area: {
@@ -202,7 +207,7 @@
                         },
                         series: [{
                             name: 'Success ' + lookbackDays,
-                            data: successData(lookbackDays),
+                            data: getSuccessDataForPastNDays(lookbackDays),
                             pointStart: moment().subtract(lookbackDays - 1, 'd').toDate().getTime(),
                             pointInterval: 24 * 3600 * 1000 // one day
                         }]

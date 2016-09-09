@@ -18,37 +18,37 @@ function isDatePresentIn(date_object, date) {
     return monthArray.indexOf(moment_date.date()) >= 0;
 }
 
-function callFuncOnSuccessFailure(i, func) {
-    var iDaysBefore = moment().subtract(i, 'd');
+function callFuncOnSuccessFailure(number_days_ago, func) {
+    var iDaysBefore = moment().subtract(number_days_ago, 'd');
     var wasSuccess = isDatePresentIn(success, iDaysBefore);
     var wasFailure = isDatePresentIn(failure, iDaysBefore);
 
-    func(i, {
+    func({
         success: wasSuccess,
         failure: wasFailure
     });
 }
 
-function iterate_success(n, forward, func) {
-    if (n < 1) {
+function iterate_success(max_number_days_ago, forward, func) {
+    if (max_number_days_ago < 1) {
         alert("Error");
     }
-    var _range = forward ? _.range(0, n) : _.range(n - 1, -1, -1);
-    _.each(_range, function (i) {
-        callFuncOnSuccessFailure(i, func);
+    var _range = forward ? _.range(0, max_number_days_ago) : _.range(max_number_days_ago - 1, -1, -1);
+    _.each(_range, function (days_ago) {
+        callFuncOnSuccessFailure(days_ago, func);
     });
 }
 
-function ratio(num, denom) {
-    return Math.round(num * 10000 / denom) / 100;
+function ratio(numerator, denominator) {
+    return Math.round(numerator * 10000 / denominator) / 100;
 }
 
-function successRate(n) {
+function getSuccessRateForPastNDays(n) {
     var _data = {
         successes: 0,
         totals: 0
     };
-    iterate_success(n, true, function (i, sf) {
+    iterate_success(n, true, function (sf) {
         if (sf.success) {
             _data.successes += 1;
         }
@@ -58,17 +58,15 @@ function successRate(n) {
     });
     if (_data.totals > 0) {
         return ratio(_data.successes, _data.totals);
-    } else {
-        return '-';
     }
 }
 
-function successData(n) {
+function getSuccessDataForPastNDays(n) {
     var _data = {
         result: [],
         runningTotal: 0
     };
-    iterate_success(n, false, function (i, sf) {
+    iterate_success(n, false, function (sf) {
         if (sf.success) {
             _data.runningTotal += 1;
         }
@@ -80,14 +78,15 @@ function successData(n) {
     return _data.result;
 }
 
-function rate_for(year, month) {
+function doesArrayContainData(array) {
+    return array && array.length;
+}
+
+function getSuccessRateFor(year, month) {
     var _success = getMonthArray(success, year, month);
     var _failure = getMonthArray(failure, year, month);
 
-    if ((_success && _success.length) || (_failure && _failure.length)) {
-        return (_success.length * 100) / (_success.length + _failure.length);
-    } else {
-        return "";
+    if (doesArrayContainData(_success) && doesArrayContainData(_failure)) {
+        return ratio(_success.length, _success.length + _failure.length);
     }
-
 }
