@@ -9,13 +9,21 @@
 
         <script type="text/template" id="radio-template">
             <label>
-                <input type="radio" data-var-name="<%=var_name%>" name="which" value="<%=value%>"> <%=value%>
+                <input type="radio" data-type="<%=type%>" name="which" value="<%=value%>"> <%=value%>
+            </label>
+        </script>
+
+        <script type="text/template" id="radio-as-switch-template">
+            <label>
+                <input type="radio" name="options" id="<%=value%>"> <%=value%>
             </label>
         </script>
     </head>
     <body>
 
         <div id="radios"></div>
+        <div id="sub-radios"></div>
+
         <ul class="nav nav-tabs" data-tabs="tabs">
             <li role="presentation">
                 <a href="#calendar-view" role="tab" data-toggle="tab">Calendar</a>
@@ -55,70 +63,189 @@
         <script src="../data/call_data.js"></script>
         <script src="assets/js/success.js"></script>
         <script>
-            function main() {
-                $('#calendar').calendar({
-                    customDayRenderer: customRenderer,
-                    renderEnd: function (year) {
-                        var currentYear = year.currentYear;
-                        _.each($(".month-title"), function (elem) {
-                            var $elem = $(elem);
-                            var monthText = $elem.text();
-                            var currentMonth = moment.months().indexOf(monthText) + 1;
 
-                            var rate = "" + rate_for(currentYear, currentMonth);
-                            if (rate != '') {
-                                $elem.text(monthText + " " + rate.substring(0, 5) + " %");
-                            }
-                        });
+            function showOnlyIff(selectors, showCondition, whatPartOfSelector) {
+                _.each(selectors, function (it) {
+                    var $it = $(it);
+                    var part = whatPartOfSelector($it);
+
+                    if (showCondition($it)) {
+                        part.show();
+                    } else {
+                        part.hide();
+                    }
+                })
+            }
+
+            function getAttributeOfCheckedRadio(what, selectors) {
+                var checked;
+                _.each(selectors, function (it) {
+                    var $it = $(it);
+                    if ($it.is(':checked')) {
+                        checked = $it.attr(what);
                     }
                 });
+                return checked;
+            }
+            //////////////////
 
-                $("#nav-tabs a").click(function (e) {
+            function renderRadios(type, subType, allTypes) {
+
+                function sortByName(list) {
+                    return _.sortBy(list, function (it) {
+                        return it
+                    });
+                }
+
+                function appendRadiosForData(var_name) {
+
+                    radios.append(radioAsSwitchTemplate({value: var_name}));
+
+                    var data_keys = sortByName(_.keys(eval(var_name)));
+
+                    _.each(data_keys, function (it) {
+                        subRadios.append(radioTemplate({value: it, type: var_name}));
+                    });
+                }
+
+                function showOnlyRelevantOptions() {
+                    var type = getAttributeOfCheckedRadio("id", radios.find("input"));
+
+                    showOnlyIff(
+                            subRadios.find("input"),
+                            function ($it) {
+                                return $it.data("type") == type;
+                            },
+                            function ($it) {
+                                return $it.parent("label");
+                            }
+                    );
+                }
+
+                _.each(sortByName(allTypes), appendRadiosForData);
+
+                $('input:radio[name="options"]').change(showOnlyRelevantOptions);
+                $('input:radio[name="which"]').change(renderGraphs);
+
+                $("#" + type).prop("checked", true);
+                $("input:radio[value='" + subType + "']").prop("checked", true);
+                showOnlyRelevantOptions();
+            }
+
+            function renderGraphs() {
+
+                function assignSuccessFailure() {
+                    var type = getAttributeOfCheckedRadio("id", radios.find("input"));
+                    var subType = getAttributeOfCheckedRadio("value", subRadios.find("input"));
+
+                    var obj = eval(type + "." + subType);
+                    success = obj.success;
+                    failure = obj.failure;
+                }
+
+                function customRenderer(element, _date) {
+                    var wasSuccess = isDatePresentIn(success, _date);
+                    if (wasSuccess) {
+                        $(element).addClass('success');
+                    }
+
+                    var wasFailure = isDatePresentIn(failure, _date);
+                    if (wasFailure) {
+                        $(element).addClass('failure');
+                    }
+                }
+
+                function renderCalendar() {
+                    $('#calendar').calendar({
+                        customDayRenderer: customRenderer,
+                        renderEnd: function (year) {
+                            var currentYear = year.currentYear;
+                            _.each($(".month-title"), function (elem) {
+                                var $elem = $(elem);
+                                var monthText = $elem.text();
+                                var currentMonth = moment.months().indexOf(monthText) + 1;
+
+                                var rate = "" + rate_for(currentYear, currentMonth);
+                                if (rate != '') {
+                                    $elem.text(monthText + " " + rate.substring(0, 5) + " %");
+                                }
+                            });
+                        }
+                    });
+                }
+
+                function getChartDetails(lookbackDays) {
+                    return {
+                        chart: {
+                            type: 'area',
+                            height: 300
+                        },
+                        title: {
+                            text: 'Success ' + successRate(lookbackDays) + "%"
+                        },
+                        plotOptions: {
+                            area: {
+                                stacking: 'normal',
+                                lineColor: '#666666',
+                                lineWidth: 1,
+                                marker: {
+                                    lineWidth: 1,
+                                    lineColor: '#666666'
+                                }
+                            }
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            dateTimeLabelFormats: {
+                                day: '%e of %b'
+                            }
+                        },
+                        series: [{
+                            name: 'Success ' + lookbackDays,
+                            data: successData(lookbackDays),
+                            pointStart: moment().subtract(lookbackDays - 1, 'd').toDate().getTime(),
+                            pointInterval: 24 * 3600 * 1000 // one day
+                        }]
+                    };
+                }
+
+                function renderLookbackCharts() {
+                    _.each([7, 15, 30, 60], function (e) {
+                        $("#chart-" + e).highcharts(getChartDetails(e));
+                    });
+                }
+
+                assignSuccessFailure();
+                renderCalendar();
+                renderLookbackCharts();
+            }
+
+            function initTabs() {
+                $("#nav-tabs").find("a").click(function (e) {
                     e.preventDefault();
                     $(this).tab('show');
                 });
-
-                _.each([7, 15, 30, 60], function (e) {
-                    $("#chart-" + e).highcharts(getChartDetails(e));
-                });
-            }
-
-            function appendRadiosForData(data, var_name, radios) {
-                var radioTemplate = _.template($("#radio-template").html());
-                _.each(_.keys(data), function (it) {
-                    radios.append(radioTemplate({value: it, var_name: var_name}));
-                });
-            }
-
-            function showRadios() {
-                var radios = $("#radios");
-                appendRadiosForData(health, "health", radios);
-                appendRadiosForData(company, "company", radios);
-                appendRadiosForData(other_data, "other_data", radios);
-                appendRadiosForData(learning, "learning", radios);
-                appendRadiosForData(call_data, "call_data", radios);
             }
 
             function setup() {
-                success = learning.overall.success;
-                failure = learning.overall.failure;
-                showRadios();
+                var type = "learning";
+                var subType = "overall";
+                var allTypes = [
+                    "call_data", "company", "health", "learning", "other_data"
+                ];
 
-                $('input:radio[name="which"]').change(function () {
-                    var $this = $(this);
-                    var obj = eval($this.data("var-name") + "." + $this.val());
-                    success = obj.success;
-                    failure = obj.failure;
-
-                    main();
-                });
-                main();
+                initTabs();
+                renderRadios(type, subType, allTypes);
+                renderGraphs();
             }
 
+            var radioAsSwitchTemplate = _.template($("#radio-as-switch-template").html());
+            var radioTemplate = _.template($("#radio-template").html());
+            var radios = $("#radios");
+            var subRadios = $("#sub-radios");
             var success;
             var failure;
             setup();
-
 
         </script>
     </body>

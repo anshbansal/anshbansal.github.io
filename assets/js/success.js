@@ -1,33 +1,21 @@
-function getMonthArray(obj, year, month) {
-    obj = obj || {};
+function getMonthArray(date_object, year, month) {
+    date_object = date_object || {};
 
-    var yearObj = obj[year] || {};
+    var year_object = date_object[year] || {};
 
-    return (yearObj[month] || []);
+    return (year_object[month] || []);
 }
 
-function isDatePresentIn(obj, date) {
-    var _momentDate = moment(date);
+function isDatePresentIn(date_object, date) {
+    var moment_date = moment(date);
 
     var monthArray = getMonthArray(
-        obj,
-        _momentDate.year(),
-        _momentDate.month() + 1
+        date_object,
+        moment_date.year(),
+        moment_date.month() + 1
     );
 
-    return monthArray.indexOf(_momentDate.date()) >= 0;
-}
-
-function customRenderer(element, datee) {
-    var wasSuccess = isDatePresentIn(success, datee);
-    if (wasSuccess) {
-        $(element).addClass('success');
-    }
-
-    var wasFailure = isDatePresentIn(failure, datee);
-    if (wasFailure) {
-        $(element).addClass('failure');
-    }
+    return monthArray.indexOf(moment_date.date()) >= 0;
 }
 
 function callFuncOnSuccessFailure(i, func) {
@@ -92,10 +80,6 @@ function successData(n) {
     return _data.result;
 }
 
-function days_from_now(date_str) {
-    return moment(date_str, "YYYY-MM-DD").diff(moment(), 'd') + 1;
-}
-
 function rate_for(year, month) {
     var _success = getMonthArray(success, year, month);
     var _failure = getMonthArray(failure, year, month);
@@ -106,39 +90,4 @@ function rate_for(year, month) {
         return "";
     }
 
-}
-
-function getChartDetails(lookbackDays) {
-    return {
-        chart: {
-            type: 'area',
-            height: 300
-        },
-        title: {
-            text: 'Success ' + successRate(lookbackDays) + "%"
-        },
-        plotOptions: {
-            area: {
-                stacking: 'normal',
-                lineColor: '#666666',
-                lineWidth: 1,
-                marker: {
-                    lineWidth: 1,
-                    lineColor: '#666666'
-                }
-            }
-        },
-        xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                day: '%e of %b'
-            }
-        },
-        series: [{
-            name: 'Success ' + lookbackDays,
-            data: successData(lookbackDays),
-            pointStart: moment().subtract(lookbackDays - 1, 'd').toDate().getTime(),
-            pointInterval: 24 * 3600 * 1000 // one day
-        }]
-    };
 }
