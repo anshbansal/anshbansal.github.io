@@ -86,7 +86,7 @@ function getSuccessRateFor(year, month) {
     var _success = getMonthArray(success, year, month);
     var _failure = getMonthArray(failure, year, month);
 
-    if (doesArrayContainData(_success) && doesArrayContainData(_failure)) {
+    if (doesArrayContainData(_success) || doesArrayContainData(_failure)) {
         return ratio(_success.length, _success.length + _failure.length);
     }
 }
