@@ -16039,6 +16039,143 @@ Animal(&#39;dog&#39;)
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[357]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">GaussianNB</span>
+
+
+<span class="c1"># DO NOT SEARCH WHAT IS ACEROUS</span>
+<span class="k">class</span> <span class="nc">Mammal</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">legs</span><span class="p">,</span> <span class="n">hands</span><span class="p">,</span> <span class="n">horns</span><span class="p">,</span> <span class="n">is_acerous</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legs</span> <span class="o">=</span> <span class="n">legs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hands</span> <span class="o">=</span> <span class="n">hands</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">horns</span> <span class="o">=</span> <span class="n">horns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_acerous</span> <span class="o">=</span> <span class="n">is_acerous</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;[name = </span><span class="si">{}</span><span class="s2">, legs = </span><span class="si">{}</span><span class="s2">, hands = </span><span class="si">{}</span><span class="s2">, horns = </span><span class="si">{}</span><span class="s2">, is_acerous = </span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hands</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">horns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_acerous</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_train_animals</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;monkey&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;giraffe&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;goat&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;bull&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;deer&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;ram&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;rhino&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">get_test_animals</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;peacock&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;markhor&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">Mammal</span><span class="p">(</span><span class="s2">&quot;nubian Ibex&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">get_feature</span><span class="p">(</span><span class="n">animal</span><span class="p">:</span> <span class="n">Mammal</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">animal</span><span class="o">.</span><span class="n">legs</span><span class="p">]</span>
+    <span class="c1"># return [animal.legs, animal.hands]</span>
+    <span class="c1"># return [animal.legs, animal.hands, animal.horns]</span>
+    <span class="c1"># return [animal.horns]</span>
+
+
+<span class="k">def</span> <span class="nf">get_labeled_sample_set</span><span class="p">(</span><span class="n">animals</span><span class="p">):</span> <span class="c1"># [Mammal(&quot;monkey&quot;, 2, 2, False, True), Mammal(&quot;monkey&quot;, 2, 2, False, True)]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="n">animals</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">get_feature</span><span class="p">(</span><span class="n">animal</span><span class="p">),</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">animal</span><span class="o">.</span><span class="n">is_acerous</span> <span class="k">else</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">test_features</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">):</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_features</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">actual</span><span class="p">,</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual </span><span class="si">{}</span><span class="s2">, prediction </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">prediction</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">prediction</span><span class="p">:</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">correct</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span>
+
+
+<span class="k">def</span> <span class="nf">get_features_and_labels</span><span class="p">(</span><span class="n">animals</span><span class="p">):</span>
+    <span class="n">labeled_sample_set</span> <span class="o">=</span> <span class="n">get_labeled_sample_set</span><span class="p">(</span><span class="n">animals</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labeled_sample_set</span><span class="p">:</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">clf</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">train_features</span><span class="p">,</span> <span class="n">train_labels</span> <span class="o">=</span> <span class="n">get_features_and_labels</span><span class="p">(</span><span class="n">get_train_animals</span><span class="p">())</span>
+    <span class="n">test_features</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">get_features_and_labels</span><span class="p">(</span><span class="n">get_test_animals</span><span class="p">())</span>
+
+    <span class="n">classifier</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">test_features</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">))</span>
+
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[2] 1
+[4] 1
+[4] 1
+[4] 0
+[4] 0
+[4] 0
+[4] 0
+actual 1, prediction 0
+actual 1, prediction 0
+actual 1, prediction 0
+actual 0, prediction 0
+actual 0, prediction 0
+0.4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
     </div>
   </div>
 </body>
