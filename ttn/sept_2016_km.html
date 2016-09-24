@@ -15913,6 +15913,132 @@ Animal(&#39;dog&#39;)
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[348]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://stackoverflow.com/tags?page=5&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[349]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[353]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tags</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s2">&quot;tag-cell&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[355]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tag_cell</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s2">&quot;tag-cell&quot;</span><span class="p">):</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">current</span><span class="p">[</span><span class="s1">&#39;tag-name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tag_cell</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s2">&quot;post-tag&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">string</span>
+            <span class="n">current</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tag_cell</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s2">&quot;item-multiplier-count&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">string</span>
+
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[356]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[356]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[{&#39;count&#39;: &#39;30827&#39;, &#39;tag-name&#39;: &#39;ms-access&#39;},
+ {&#39;count&#39;: &#39;30540&#39;, &#39;tag-name&#39;: &#39;android-studio&#39;},
+ {&#39;count&#39;: &#39;30268&#39;, &#39;tag-name&#39;: &#39;tomcat&#39;},
+ {&#39;count&#39;: &#39;29898&#39;, &#39;tag-name&#39;: &#39;hadoop&#39;},
+ {&#39;count&#39;: &#39;29715&#39;, &#39;tag-name&#39;: &#39;pandas&#39;},
+ {&#39;count&#39;: &#39;29455&#39;, &#39;tag-name&#39;: &#39;haskell&#39;},
+ {&#39;count&#39;: &#39;28964&#39;, &#39;tag-name&#39;: &#39;authentication&#39;},
+ {&#39;count&#39;: &#39;28945&#39;, &#39;tag-name&#39;: &#39;facebook-graph-api&#39;},
+ {&#39;count&#39;: &#39;28909&#39;, &#39;tag-name&#39;: &#39;url&#39;},
+ {&#39;count&#39;: &#39;28678&#39;, &#39;tag-name&#39;: &#39;android-fragments&#39;},
+ {&#39;count&#39;: &#39;28648&#39;, &#39;tag-name&#39;: &#39;firefox&#39;},
+ {&#39;count&#39;: &#39;28645&#39;, &#39;tag-name&#39;: &#39;numpy&#39;},
+ {&#39;count&#39;: &#39;28532&#39;, &#39;tag-name&#39;: &#39;pdf&#39;},
+ {&#39;count&#39;: &#39;28098&#39;, &#39;tag-name&#39;: &#39;winapi&#39;},
+ {&#39;count&#39;: &#39;27801&#39;, &#39;tag-name&#39;: &#39;if-statement&#39;},
+ {&#39;count&#39;: &#39;27773&#39;, &#39;tag-name&#39;: &#39;animation&#39;},
+ {&#39;count&#39;: &#39;27750&#39;, &#39;tag-name&#39;: &#39;generics&#39;},
+ {&#39;count&#39;: &#39;27715&#39;, &#39;tag-name&#39;: &#39;silverlight&#39;},
+ {&#39;count&#39;: &#39;27519&#39;, &#39;tag-name&#39;: &#39;jpa&#39;},
+ {&#39;count&#39;: &#39;27250&#39;, &#39;tag-name&#39;: &#39;for-loop&#39;},
+ {&#39;count&#39;: &#39;27221&#39;, &#39;tag-name&#39;: &#39;dictionary&#39;},
+ {&#39;count&#39;: &#39;27118&#39;, &#39;tag-name&#39;: &#39;cakephp&#39;},
+ {&#39;count&#39;: &#39;27115&#39;, &#39;tag-name&#39;: &#39;redirect&#39;},
+ {&#39;count&#39;: &#39;26836&#39;, &#39;tag-name&#39;: &#39;opengl&#39;},
+ {&#39;count&#39;: &#39;26782&#39;, &#39;tag-name&#39;: &#39;events&#39;},
+ {&#39;count&#39;: &#39;26645&#39;, &#39;tag-name&#39;: &#39;exception&#39;},
+ {&#39;count&#39;: &#39;26559&#39;, &#39;tag-name&#39;: &#39;servlets&#39;},
+ {&#39;count&#39;: &#39;26532&#39;, &#39;tag-name&#39;: &#39;ssl&#39;},
+ {&#39;count&#39;: &#39;26397&#39;, &#39;tag-name&#39;: &#39;mod-rewrite&#39;},
+ {&#39;count&#39;: &#39;26054&#39;, &#39;tag-name&#39;: &#39;express&#39;},
+ {&#39;count&#39;: &#39;25952&#39;, &#39;tag-name&#39;: &#39;inheritance&#39;},
+ {&#39;count&#39;: &#39;25828&#39;, &#39;tag-name&#39;: &#39;xslt&#39;},
+ {&#39;count&#39;: &#39;25743&#39;, &#39;tag-name&#39;: &#39;caching&#39;},
+ {&#39;count&#39;: &#39;25720&#39;, &#39;tag-name&#39;: &#39;grails&#39;},
+ {&#39;count&#39;: &#39;25469&#39;, &#39;tag-name&#39;: &#39;table&#39;},
+ {&#39;count&#39;: &#39;25451&#39;, &#39;tag-name&#39;: &#39;dom&#39;}]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
     </div>
   </div>
 </body>
