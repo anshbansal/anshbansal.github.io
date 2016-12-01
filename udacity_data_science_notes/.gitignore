@@ -1,0 +1,6 @@
+.ipynb_checkpoints
+.idea
+.RData
+.Rhistory
+Data_Wrangling_with_MongoDB/*.osm
+Data_Wrangling_with_MongoDB/new-delhi_india.osm.json

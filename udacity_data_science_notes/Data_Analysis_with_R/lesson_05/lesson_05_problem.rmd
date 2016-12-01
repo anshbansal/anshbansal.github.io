@@ -1,0 +1,71 @@
+```{r Price Histograms with Facet and color}
+library(ggplot2)
+data("diamonds")
+
+ggplot(aes(price, color = cut), data = diamonds) + 
+    facet_wrap(~color, scales = "free") +
+    geom_histogram() + 
+    scale_x_log10()
+```
+
+```{r Price vs. Table Colored by Cut}
+ggplot(aes(x = table, y = price, color = cut), data = diamonds) + 
+    geom_point() +
+    coord_cartesian(xlim = c(50, 70)) +
+    scale_x_continuous(breaks = seq(50, 70, 1))
+```
+
+
+
+```{r Quiz: Price vs. Volume and Diamond Clarity}
+diamonds$volumes <- with(diamonds, x * y * z)
+diamonds_subset <- subset(
+    diamonds, 
+    volumes < quantile(volumes, 0.99)
+    )
+ggplot(
+  aes(x = volumes, y = price, color = cut), 
+  data = diamonds_subset) + 
+    geom_point() +
+    scale_y_log10()
+```
+
+```{r Proportion of Friendships Initiated}
+pf <- read.delim('/home/aseem/Downloads/data_sets/pseudo_facebook.tsv')
+pf$prop_initiated <- with(pf, friendships_initiated / friend_count)
+```
+
+```{r prop_initiated vs. tenure}
+pf$year_joined <- floor(2014 - pf$tenure/365)
+pf$year_joined.bucket <- cut(pf$year_joined, breaks = c(2004, 2009, 2011, 2012, 2014))
+
+ggplot(
+  aes(x = tenure, y = prop_initiated, color = year_joined.bucket), 
+  data = pf) + 
+    geom_line(stat = 'summary', fun.y = median)
+```
+
+```{r Smoother prop_initiated vs. tenure}
+ggplot(
+  aes(x = tenure, y = prop_initiated, color = year_joined.bucket), 
+  data = subset(pf, !is.na(prop_initiated) & !is.na(tenure))) + 
+    geom_smooth(stat = 'summary', fun.y = median)
+```
+
+Let's check out the group which initiated most proportion of friendship requests.
+
+```{r Largest Group Mean Prop_initiated}
+group1 <- subset(pf, year_joined.bucket == '(2012,2014]' & !is.na(prop_initiated))
+mean(group1$prop_initiated)
+```
+
+```{r Price/Carat Binned, Faceted, & Colored}
+ggplot(
+    aes(x = cut, y = price/carat, color = color), 
+    data = diamonds
+) + 
+    facet_wrap(~clarity) +
+    geom_jitter() + 
+    scale_color_brewer(type = 'div')
+```
+

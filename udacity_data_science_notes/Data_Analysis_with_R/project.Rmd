@@ -1,0 +1,224 @@
+Loan Data exploration by Aseem Bansal
+========================================================
+
+This data set contains 113,937 loans with 81 variables on each loan, including loan amount, borrower rate (or interest rate), current loan status, borrower income, borrower employment status, borrower credit history, and the latest payment information.
+
+During this exploration I am interested in the factors that could lead to loan being defaulted by the user. So my exploration would be centered about that. The question I am interested is "What factors affect loan being defaulted?"
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using
+# in your analysis in this code chunk.
+
+# Notice that the parameter "echo" was set to FALSE for this code chunk.
+# This prevents the code from displaying in the knitted HTML output.
+# You should set echo=FALSE for all code chunks in your file.
+
+library(ggplot2)
+```
+
+Let's load the data. I will do some processing here to 
+
+* select only the columns in which I am interested in
+* change the format of data for my analysis
+* change column names
+
+```{r echo=FALSE, Load_the_Data}
+setwd("/home/aseem/projects/website/udacity_data_science_notes/Data_Analysis_with_R")
+loanData <- read.csv("prosperLoanData.csv")
+loanData$ListingCreationDate <- as.Date(loanData$ListingCreationDate, "%Y-%m-%d")
+loanData$ClosedDate <- as.Date(loanData$ClosedDate, "%Y-%m-%d")
+loanData$EmploymentStatusDurationYear <- floor(loanData$EmploymentStatusDuration / 12)
+
+relevantLoanData <- loanData[, c(
+  "ListingNumber", 
+  "ListingCreationDate", 
+  "CreditGrade", 
+  "Term", 
+  "LoanStatus",
+  "ClosedDate",
+  "ListingCategory..numeric.",
+  "Occupation",
+  "EmploymentStatus",
+  "EmploymentStatusDurationYear",
+  "LoanOriginalAmount"
+  )]
+
+colnames(relevantLoanData)[colnames(relevantLoanData) == "ListingCategory..numeric."] <- "ListingCategory"
+
+```
+
+# Univariate Plots Section
+
+Will look at the various variables to get an general understanding about the data.
+
+Let's find out the number of rows that the data has and some other characteristics of the data.
+
+```{r echo=FALSE, Univariate_Plots}
+nrow(relevantLoanData)
+names(relevantLoanData)
+str(relevantLoanData)
+summary(relevantLoanData)
+```
+
+Let's find out year wise distribution of loan creation.
+
+```{r echo=FALSE}
+relevantLoanData$ListingCreationYear <- as.numeric(format(relevantLoanData$ListingCreationDate, "%Y"))
+
+table(relevantLoanData$ListingCreationYear)
+qplot(data = relevantLoanData, x = ListingCreationYear)
+```
+
+What about credit grade for the years before 2009?
+
+```{r echo=FALSE}
+table(relevantLoanData[relevantLoanData$ListingCreationYear < 2009,]$CreditGrade)
+```
+The credit grade is not present for all the cases even before 2009. Let's see for which years it is missing so I remember that for future analysis.
+
+```{r echo=FALSE}
+table(relevantLoanData[(relevantLoanData$ListingCreationYear < 2009) & (relevantLoanData$CreditGrade == ""),]$ListingCreationYear)
+```
+
+What is the the distribution of the loans by term? 
+```{r echo=FALSE, warning=FALSE}
+table(relevantLoanData$Term)
+qplot(data = relevantLoanData, x = Term/12, xlab = "Term (in years)")
+```
+
+What about the loan status?
+
+```{r echo=FALSE}
+table(relevantLoanData$LoanStatus)
+```
+
+When was the loan closed?
+```{r echo=FALSE}
+relevantLoanData$ClosedYear <- as.numeric(format(relevantLoanData$ClosedDate, "%Y"))
+
+table(relevantLoanData$ClosedYear)
+qplot(data = relevantLoanData, x = ClosedYear)
+```
+
+In which categories is the loan distributed?
+
+```{r echo=FALSE}
+table(relevantLoanData$ListingCategory)
+```
+
+What is  occupation of the person?
+
+```{r echo=FALSE}
+table(relevantLoanData$Occupation)
+```
+
+What is employment status of the person?
+
+```{r echo=FALSE}
+sort(table(relevantLoanData$EmploymentStatus), decreasing = TRUE)
+```
+
+Employed for how long?
+
+```{r echo=FALSE}
+sort(table(relevantLoanData$EmploymentStatusDurationYear), decreasing = TRUE)
+```
+
+Loan amount distribution?
+
+```{r echo=FALSE}
+qplot(data = relevantLoanData, x = LoanOriginalAmount, binwidth=1000)
+
+ggplot(relevantLoanData, aes(x = LoanOriginalAmount)) + 
+  geom_histogram() +
+  scale_x_log10()
+
+ggplot(relevantLoanData, aes(x = LoanOriginalAmount)) + 
+  geom_histogram(binwidth = 500) +
+  coord_cartesian(xlim = c(1000, 15000))
+```
+
+Looking at the graph does not give much intuition except that there are some amount in which loans have been disbused more. 
+
+```{r echo=FALSE}
+head(sort(table(relevantLoanData$LoanOriginalAmount), decreasing = TRUE), n = 10)
+```
+
+Looking at the exact numbers shows the most popular choices in which loan has been disbursed.
+
+
+
+# Univariate Analysis
+
+### What is the structure of your dataset?
+
+### What is/are the main feature(s) of interest in your dataset?
+
+### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
+
+### Did you create any new variables from existing variables in the dataset?
+
+### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
+
+
+
+# Bivariate Plots Section
+```{r echo=FALSE, Bivariate_Plots}
+
+```
+
+# Bivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
+
+### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
+
+### What was the strongest relationship you found?
+
+
+
+
+# Multivariate Plots Section
+
+```{r echo=FALSE, Multivariate_Plots}
+
+```
+
+# Multivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
+
+### Were there any interesting or surprising interactions between features?
+
+### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
+
+------
+
+# Final Plots and Summary
+
+### Plot One
+```{r echo=FALSE, Plot_One}
+
+```
+
+### Description One
+
+
+### Plot Two
+```{r echo=FALSE, Plot_Two}
+
+```
+
+### Description Two
+
+
+### Plot Three
+```{r echo=FALSE, Plot_Three}
+
+```
+
+### Description Three
+
+------
+
+# Reflection

@@ -1,0 +1,190 @@
+Lesson 2 - R Basics
+========================================================
+
+### 01 - The Power of R
+* Advantage of using R to perform Data Analysis
+* Basic data types and commands of R
+
+### Resources
+* [Foodbourne Chicago finds Dodgy Restaurants with Tweets](http://blog.revolutionanalytics.com/2013/08/foodborne-chicago.html)
+* [Sensitivity and Specificity and ROC Curves for Binary Classifiers](http://blog.yhathq.com/posts/roc-curves.html) (more advanced reading; focus on understanding TPR and FPR). 
+
+### 02 - The Power of R
+* Used `textcat` package for analyzing tweets
+
+### 03 - Why R
+* We can build our analysis line by line
+* Having R scripts allows you to easily share your work with others
+* Has over 2000 user contributed packages
+* Has large, active and growing community of users
+
+Let's see any example of what we can get out of R using a few lines of code
+
+```{r Example Scatterplot}
+#install.packages('ggplot2', dependencies = TRUE) 
+library(ggplot2) 
+
+#install.packages('RColorBrewer', dependencies = TRUE) 
+library(RColorBrewer) 
+
+data("diamonds")
+
+qplot(data = diamonds, x = carat, y = price, color = cut) +
+  scale_color_brewer(palette = 'Accent')
+```
+
+### 08 - Demystifying R
+
+Go through `demystifying.R` to try out R.
+
+### 10 - Getting Help
+* Using `?FUNCTION` to get help for any function
+
+#### Resources
+* [Quick R]('http://www.statmethods.net/')
+* [R Cookbook]('http://www.cookbook-r.com/')
+* [R-Bloggers]('http://www.r-bloggers.com/')
+* [StackOverflow About R]('http://stackoverflow.com/tags/r/info')
+* [StackOverflow R FAQ]('http://stackoverflow.com/questions/tagged/r-faq%20')
+* [Google's R Style Guide]('https://google.github.io/styleguide/Rguide.xml')
+
+### 11 - Read and Subset Data
+
+```{r Check and set current working directory}
+getwd()
+#setwd('')
+```
+
+```{r Reading in data}
+statesInfo <- read.csv('./stateData.csv')
+```
+* Double clicking the data frame in Environment tab allows you to view the data in a tabular format in RStudio
+* We can subset a dataframe to select some rows based on some conditions passed to `subset` function
+* We can see the number of rows and columns using `dim`
+```{r Subsetting data}
+stateSubset <- subset(statesInfo, state.region == 1)
+head(stateSubset, 2)
+dim(stateSubset)
+
+stateSubsetBracket <- statesInfo[statesInfo$state.region == 1, ]
+head(stateSubsetBracket, 2)
+dim(stateSubsetBracket)
+```
+
+#### Resources
+* Read this [fantastic tutorial](http://flowingdata.com/2015/02/18/loading-data-and-basic-formatting-in-r/) on loading data into R by Nathan Yau.
+* [How to Subset Data](http://www.statmethods.net/management/subset.html)
+
+### 12 - R Markdown Documents
+* Go through `What_is_a_RMD_file.Rmd` file to see how a RMD file looks like
+* The second file, `demystifyingR2.Rmd`, is the file that Chris mentions at the end of the video. Work through this file and use it to answer the next quiz! 
+
+You'll need to install and load the package knitr in order to use the KNIT HTML button . Run the following commands in the RStudio console to install and load knitr. 
+
+```{r Install Knitr to make HTML}
+#install.packages('knitr', dependencies = T) 
+library(knitr)
+```
+
+### 13 - R Markdown Documents
+Which cars have `mpg` greater than or equal to 30 or `hp` less than 60?
+
+```{r}
+data("mtcars")
+str(mtcars)
+subset(mtcars, mpg >= 30 | hp < 60)
+```
+
+### 14 - Factor Variables
+
+We will look at some data collected from survey of reddit users. This survey asked users about
+    + Demographics - gender, nationality, employment
+    + what type of cheese they would be
+    + prefer dogs, cats or turtles
+
+```{r Reading reddit data and seeing some details}
+reddit <- read.csv("reddit.csv")
+str(reddit)
+```
+
+How many people are in each group of employment status
+```{r}
+table(reddit$employment.status)
+```
+
+We can also get these counts and other data points using the `summary` function
+```{r}
+summary(reddit)
+```
+
+#### Resources
+* Learn more about [data types](http://www.statmethods.net/input/datatypes.html).
+* [Who is Reddit?](http://www.redditblog.com/2011/09/who-in-world-is-reddit-results-are-in.html)
+
+### 15 - Ordered Factors
+
+Looking more closely at the facotr variables. We can look at the level of factor variables using the following
+
+```{r}
+levels(reddit$age.range)
+```
+
+Let's create a plot to see how many users are in each range
+
+```{r}
+library(ggplot2)
+qplot(data = reddit, x = age.range)
+```
+
+Now the graph is in order but the 'Under 18' group should have been the first one. For this to happen we want ordered factors.
+
+### 18 - Setting Levels of Ordered Factors
+
+The problem is much worse in some other cases. 
+
+```{r}
+qplot(data = reddit, x = income.range)
+```
+
+Setting the order can be done like this
+```{r}
+reddit$age.range <- ordered(reddit$age.range, 
+                            levels = c('Under 18', '18-24', '25-34', '35-44', '45-54',
+                                       '55-64', '65 or Above'))
+
+qplot(data = reddit, x = age.range)
+
+#Alternate way to set order of factors
+reddit$age.range <- factor(reddit$age.range, 
+                            levels = c('Under 18', '18-24', '25-34', '35-44', '45-54',
+                                       '55-64', '65 or Above'),
+                           ordered = T)
+
+qplot(data = reddit, x = age.range)
+```
+
+
+#### Resources
+* [Learn how to set and order factor levels.](http://statistics.ats.ucla.edu/stat/r/modules/factor_variables.htm)
+
+
+### 19 - Data Munging
+* Data sets used so far were tidy
+* Normally we won't have tidy data
+* Or we may have to reshape or re arrange data into different formats
+
+#### Resources
+* [Data Wrangling with MongoDB: Data Manipulation and Retrieval](https://www.udacity.com/course/ud032)
+* Read this [fantastic tutorial](http://flowingdata.com/2015/02/18/loading-data-and-basic-formatting-in-r/) on loading data into R by Nathan Yau.
+* [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf) by Hadley Wickham
+* [Tidy Data Presentation](http://courses.had.co.nz.s3-website-us-east-1.amazonaws.com/12-rice-bdsi/slides/07-tidy-data.pdf) by Hadley Wickham (June 2012)
+
+### 20 - Advice for Data Scientists
+* Find data sets that you are interested in
+* Work with them, play with the data
+* Good data science come from good questions, not fancy techniques
+* Motivating the research with an idea that you care about
+
+#### Resources
+* [Eytan Bakshy](http://eytan.github.io/)
+* [Sean Taylor](http://seanjtaylor.com/)
