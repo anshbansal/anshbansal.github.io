@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.2.0/dimple.latest.min.js"></script>
+        <title>Titanic Survival | Aseem Bansal</title>
+
+        <!-- Coloring pink & blue for Male/female for custom legend & Bars themselves -->
+        <style>
+            .dimple-axis,
+            .custom-legend text {
+                font-size: 12px !important;
+                font-family: sans-serif;
+            }
+
+            .custom-legend {
+                shape-rendering: crispEdges;
+            }
+
+            .custom-legend .custom-female,
+            .dimple-custom-format-1.dimple-female {
+                stroke: rgb(221, 47, 118) !important;
+                fill: rgb(221, 47, 118) !important;
+            }
+            .custom-legend .custom-male,
+            .dimple-custom-format-1.dimple-male {
+                stroke: #3073FF !important;
+                fill: #3073FF !important;
+            }
+        </style>
+
+        <script type="text/javascript">
+
+            function getSurvival(e) {
+                return e.yValueList[0] == 0 ? "Died" : "Survived";
+            }
+            function didSurvive(e) {
+                return getSurvival(e) == 'Survived';
+            }
+
+            function draw(data) {
+                "use strict";
+                var svg = d3.select("#chart");
+
+                var myChart = new dimple.chart(svg, data);
+
+                var x = myChart.addCategoryAxis("x", ["Pclass", "Sex"]);
+                x.title = "Ticket Class";
+
+                var y = myChart.addPctAxis("y", "Survived");
+                y.title = "Survival Percentage";
+                y.showGridlines = false;
+
+                var series = myChart.addSeries("Survived", dimple.plot.bar);
+                series.aggregate = dimple.aggregateMethod.count;
+
+                series.getTooltipText = function (e) {
+                    //Getting the fields data from the event to make tooltip in format for survivors only
+                    //      Class 1 male
+                    //      Survived X%
+
+                    var xField = e.xField;
+                    var yValue = getSurvival(e);
+
+                    if (didSurvive(e)) {
+                        return [
+                            "Class " + xField[0] + " " + xField[1],
+                            yValue + " " + Math.round(e.height * 100) + "%"
+                        ];
+                    } else {
+                        return [];
+                    }
+                };
+
+                //We just want to make the 2nd color white to hide the died cases
+                myChart.defaultColors = [
+                        new dimple.color("black"),
+                        new dimple.color("white", "white")
+                ];
+
+                myChart.draw();
+            }
+
+            d3.csv("titanic_data2.csv", draw);
+        </script>
+    </head>
+    <body>
+        <h1>Comparison of Survival in Titanic Disaster by Gender and Across Classes</h1>
+        <span id="text">
+            Irrespective of the class, chances of survival were skewed towards females.
+            Rich people had higher chances of survival compared to poor people.
+        </span>
+        <br>
+        <span>
+            <svg width="700" height="500" id="chart">
+                <g class="custom-legend">
+                    <rect class="custom-female" height="9" width="15" x="0" y="10"></rect>
+                    <text x="21" y="19">Female</text>
+                </g>
+                <g class="custom-legend">
+                    <rect class="custom-male" height="9" width="15" x="67" y="10"></rect>
+                    <text x="87" y="19">Male</text>
+                </g>
+            </svg>
+        </span>
+    </body>
+</html>
