@@ -11751,7 +11751,69 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-05---Standardizing">Lesson 05 - Standardizing<a class="anchor-link" href="#Lesson-05---Standardizing">&#182;</a></h1>
+<h1 id="Lesson-05---Standardizing">Lesson 05 - Standardizing<a class="anchor-link" href="#Lesson-05---Standardizing">&#182;</a></h1><ul>
+<li>Absolute numbers like rank 1800 is not always good enough unless we have full context. Proprtion/percetages however are better e.g. better than 88% of everyone. This gives a better sense of the data</li>
+<li>Instead of numbers using proportions is a better option as it gives us a better sense of the data.
+<img src="hist.png" alt=""></li>
+</ul>
+<p>The amount of detail that we can have from a histogram is based on number of bins. We need to stike a balance too much and too less number of bins.</p>
+<p><img src="hist2.png" alt=""></p>
+<ul>
+<li>Small bin size <ul>
+<li>Pro: detail of data values</li>
+<li>Con: Lose shape of distribution</li>
+</ul>
+</li>
+<li><p>Large bin size</p>
+<ul>
+<li>Pro: Maintain the shape of distribution </li>
+<li>Con: Cannot tell proportion less than data value</li>
+</ul>
+</li>
+<li><p>To avoid this we use a theoretically continuous model - Normal distribution</p>
+</li>
+<li>Area under the curve is 1</li>
+<li>This model approximates our data and is symmetrical so mean, median, mode are same in theoretical model</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Z-score">Z score<a class="anchor-link" href="#Z-score">&#182;</a></h2><ul>
+<li>We can represent any value on x axis by its distance from the mean in terms of standard deviation. This is Z-score</li>
+</ul>
+<p><img src="z_score.png" alt=""></p>
+<p>But why would we want to know the Z score? In other words, why would we want to know how much standard deviation are we away from mean?</p>
+<p>Two people friends on facebook and twitter below mean are as follows. Who is more unpopular?
+<img src="popularity.png" alt=""></p>
+<p>But if we look at the distributions of facebook and twitter followers we get
+<img src="popularity_distribution.png" alt=""></p>
+<ul>
+<li>The SD of twitter  followers is 60</li>
+<li>The SD of facebook followers is 36 </li>
+</ul>
+<p>So for the original data</p>
+<ul>
+<li>Katie FB followers    is 3.53 SD below the mean</li>
+<li>Andy twitter followes is 2.57 SD below the mean</li>
+</ul>
+<p>So if standardize the distributions then we get different results</p>
+
+<pre><code>(people with followers more than Katie's) &gt; (people with followes more than Andy's)</code></pre>
+<ul>
+<li>So converting the distribution from actual values to Z scores is standardizing the distribution</li>
+<li>After standardizing <ul>
+<li>the mean is 0</li>
+<li>the SD is 1</li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 </div>
