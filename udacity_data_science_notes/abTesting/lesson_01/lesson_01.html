@@ -11801,6 +11801,7 @@ div#notebook {
 <ul>
 <li>can collect data that is complementary to doing A/B test. logs can be analyzed and a hypothesis can be developed and based on that can do </li>
 </ul>
+<p>A/B testing has been around a while. e.g. in medicine clinical trials are effectively A/B tests</p>
 
 </div>
 </div>
@@ -11810,25 +11811,28 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>A/B testing has been around a while. e.g. in medicine clinical trials are effectively A/B tests</li>
-</ul>
 <h2 id="Business-Example">Business Example<a class="anchor-link" href="#Business-Example">&#182;</a></h2><p>Audacity makes online courses for finance courses
 <img src="funnel.png" alt=""></p>
 <ul>
 <li>Our experiment would be to test the hypothesis "changing the start now button from orange to pink will increase how many students explore audicty's courses.</li>
 <li>Which metric to choose?<ul>
 <li>total number of courses completed? No as it would take too long to complete</li>
-<li>number of clicks? No as if a group of users visit that page more then it could bias the results</li>
+<li>number of clicks? No. Say if one of the 2 groups has more number of users visits then it would give us incorrect results</li>
 <li>(no. of clicks) / (no. of page views) - click through rate</li>
 <li>(unique visitors who click) / (unique visitors to page) - click through probability</li>
 </ul>
 </li>
-<li>updated hypothesis is "chaning the start now button from orange to pink will increase the click through probability". Why probability instead of rate?<ul>
+<li>updated hypothesis is "chaning the start now button from orange to pink will increase the click through probability". </li>
+<li>Why probability instead of rate?<ul>
 <li>rate should be used when want to measure usability of website. say we have a button then the rate will tell us how often do users actually find that button.</li>
 <li>probability should be used when want to measure the impact. but for finding how often do people go exploring you don't want to take into account page refresh, double clicks etc.</li>
 </ul>
 </li>
+</ul>
+<h2 id="Repeating-experiment">Repeating experiment<a class="anchor-link" href="#Repeating-experiment">&#182;</a></h2><ul>
+<li>When we repeat experiments then if our results are too different then we would be surprised</li>
+<li>"too different" is related to standard error of our sample</li>
+<li>standard error defines how variable estimates would be if we take different samples with the same size</li>
 </ul>
 
 </div>
@@ -11848,17 +11852,21 @@ div#notebook {
 <p>Try using <a href="http://databits.io/bits/fbmx-binomial-distribution">this website</a> to get a better feel for the binomial distribution. At the top, you can choose n (the number of events to generate) and p (the probability of success for each event) for two binomial distributions and compare them. The site will show one distribution as bars and the other as dots, and two graphs will be shown. The top graph shows the probability that exactly some number of successes k will occur for each k, and the bottom graph shows the cumulative probability that at k or fewer successes will occur (so the probability on the far right (k &gt;= n) will always be 1).</p>
 <p>At the bottom, you can play a game where you throw a dice many times (with various definitions of success), keeping track of how many successes come up. This will let you see how the distribution you get resembles the binomial more and more as you keep playing.</p>
 <p><img src="binomial_distribution2.png" alt=""></p>
-<ul>
+<h2 id="Calculating-Confidence-Intervals">Calculating Confidence Intervals<a class="anchor-link" href="#Calculating-Confidence-Intervals">&#182;</a></h2><ul>
 <li>We can use the knowledge that we will be using binomaial distribution to find confidence interval. </li>
 <li>This makes it possible for us to find the interval around mean where we expect values to fall</li>
+<li>Steps are<ul>
+<li>Calculate Bias. This is center of confidence interval</li>
+<li>Need to calculate the width of confidence interval which is the SE of distribution</li>
 </ul>
-<h2 id="Bias">Bias<a class="anchor-link" href="#Bias">&#182;</a></h2><p>Estimate of probability</p>
-
-<pre><code>p^ = X / N</code></pre>
+</li>
+<li>Example is below for calculating 99% confidence interval</li>
+</ul>
+<h3 id="Bias">Bias<a class="anchor-link" href="#Bias">&#182;</a></h3><p>Estimate of probability</p>
+<p>$\hat{p} = X / N$</p>
 <p>Instead of binomial distribution we can use normal distribution if</p>
-
-<pre><code>N * (p^) &gt; 5
-N * (1 - p^) &gt; 5</code></pre>
+<p>$N * \hat{p} > 5$</p>
+<p>$N * (1 - \hat{p}) > 5$</p>
 <p>But for small probabilities the first one is more important</p>
 
 </div>
@@ -11871,21 +11879,18 @@ N * (1 - p^) &gt; 5</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 
 <pre><code>N = 2000
-X = 300
+X = 300</code></pre>
+<p>$\hat{p}$ = (300/2000) = 0.15</p>
+<p>$N * \hat{p} = 2000 * 0.15 = 300$</p>
+<p>$N * (1 - \hat{p}) = 2000 * 0.85 = 1700$</p>
+<p>As both are greater than 5 we can consider using a normal distribution instead of binomial distribution.</p>
+<p>$SE = \sqrt{ (\hat{p} * (1 - \hat{p})) / N } = \sqrt{ (0.15 * 0.85) / 2000 } = 0.007984359711335657$</p>
 
-p^ = (300/2000) = 0.15
-
-N * p^ = 2000 * 0.15 = 300
-N * (1 - p^) = 2000 * 0.85 = 1700
-
-SE = sqrt( (p^ * (1 - p^)) / N ) = sqrt( (0.15 * 0.85) / 2000 ) = 0.007984359711335657
-
-margin of error (m) = SE * z
+<pre><code>margin of error (m) = SE * Z
                     = 0.00798 * 2.575
-                    = 0.0205485
-
-p^ - m = 0.15 - 0.0205485 = 0.1294515
-p^ + m = 0.15 + 0.0205485 = 0.1705485</code></pre>
+                    = 0.0205485</code></pre>
+<p>$Lower Bound  = \hat{p} - m = 0.15 - 0.0205485 = 0.1294515$</p>
+<p>$Upper Bound = \hat{p} + m = 0.15 + 0.0205485 = 0.1705485$</p>
 
 </div>
 </div>
@@ -11895,15 +11900,41 @@ p^ + m = 0.15 + 0.0205485 = 0.1705485</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hypothesis-Testing">Hypothesis Testing<a class="anchor-link" href="#Hypothesis-Testing">&#182;</a></h2><p><img src="hypothesis_testing.png" alt=""></p>
+<p>Note that the SE is dependent on both</p>
+<ul>
+<li>proportion of successes</li>
+<li>number of samples</li>
+</ul>
+<p>So to decide how many samples we want to calculate we should consider proportion of successes. Will be covered again later in detail.</p>
+<h3 id="Note">Note<a class="anchor-link" href="#Note">&#182;</a></h3><p>So far what we have done is</p>
+<ul>
+<li>take a sample of clicks on the original website</li>
+<li>computed confidence interval before making change on the sample</li>
+<li>this helps us establish statistical (in)significance after making the change</li>
+</ul>
+<h2 id="Esatblish-statistical-significance-using-Hypothesis-Testing">Esatblish statistical significance using Hypothesis Testing<a class="anchor-link" href="#Esatblish-statistical-significance-using-Hypothesis-Testing">&#182;</a></h2><ul>
+<li>Need to calculate how likely results are due to chance</li>
+</ul>
+<p><img src="hypothesis_testing.png" alt=""></p>
+<p>Say we run an experiment of changing the checkout flow of online shopping website</p>
 <h3 id="Null-hypothesis">Null hypothesis<a class="anchor-link" href="#Null-hypothesis">&#182;</a></h3><p>Both groups have the same probability of completing a checkout</p>
 <h3 id="Alternate-hypothesis">Alternate hypothesis<a class="anchor-link" href="#Alternate-hypothesis">&#182;</a></h3><p>Both groups have different probability of completing a checkout</p>
+<h2 id="Comparing-2-samples">Comparing 2 samples<a class="anchor-link" href="#Comparing-2-samples">&#182;</a></h2><p>When comparing 2 samples we need a SE that gives us a good comparison of both. We will use pooled SE for this purpose.</p>
 <p><img src="comparing_2_samples.png" alt=""></p>
-<h2 id="Practical,-or-Substantive,-Significance">Practical, or Substantive, Significance<a class="anchor-link" href="#Practical,-or-Substantive,-Significance">&#182;</a></h2><ul>
+<h2 id="Practical,-or-Substantive,-Significance-($d_{min}$)">Practical, or Substantive, Significance ($d_{min}$)<a class="anchor-link" href="#Practical,-or-Substantive,-Significance-($d_{min}$)">&#182;</a></h2><ul>
 <li>From a business perspective what change matters to us?</li>
-<li>A statician would say what is substantive alongwith being statistically significant</li>
+<li>A statistician would say what is substantive alongwith being statistically significant</li>
 <li>only statistically significance is not enough as that just measures repeatability</li>
 <li>need to measure something from a business perspective also</li>
+<li>e.g.<ul>
+<li>new drug launch has costs - training, launching drugs</li>
+</ul>
+</li>
+<li>different size for different businesses. e.g.<ul>
+<li>5% - 15% may be necessary for medicine and traditional science</li>
+<li>1% may be enough for google</li>
+</ul>
+</li>
 </ul>
 <h2 id="Size-vs-Power-Trade-Off">Size vs Power Trade Off<a class="anchor-link" href="#Size-vs-Power-Trade-Off">&#182;</a></h2><ul>
 <li>we want to decide how many people go into the experiment. This is called statistical power</li>
@@ -11921,6 +11952,10 @@ p^ + m = 0.15 + 0.0205485 = 0.1705485</code></pre>
 <h2 id="How-many-page-views">How many page views<a class="anchor-link" href="#How-many-page-views">&#182;</a></h2>
 <pre><code>alpha = P (reject null | null true)
 beta = P (fail to reject null | null false)</code></pre>
+<ul>
+<li>alpha - falsely concluding there was a difference</li>
+<li>beta - failing to detect a true difference</li>
+</ul>
 <p>As size increase the distribution gets tighter</p>
 <p><img src="normal.png" alt=""></p>
 <p>thus <code>beta</code> gets lower (as there is less overlap) while <code>alpha</code> remains the same.</p>
@@ -11933,7 +11968,11 @@ beta = P (fail to reject null | null false)</code></pre>
 </ul>
 <p>Statistics textbooks frequently define power to mean the same thing as sensitivity, that is, 1 - beta. However, conversationally power often means the probability that your test draws the correct conclusions, and this probability depends on both alpha and beta. In this course, we'll use the second definition, and we'll use sensitivity to refer to 1 - beta.</p>
 <p>Use <a href="http://www.evanmiller.org/ab-testing/sample-size.html">this calculator</a> to determine how many page views we'll need to collect in our experiment. Make sure to choose an absolute difference, not a relative difference.</p>
-<h3 id="How-Does-Number-of-Page-Views-Vary">How Does Number of Page Views Vary<a class="anchor-link" href="#How-Does-Number-of-Page-Views-Vary">&#182;</a></h3><p><img src="number_of_page_views.png" alt="">
+<h3 id="How-Does-Number-of-Page-Views-Vary">How Does Number of Page Views Vary<a class="anchor-link" href="#How-Does-Number-of-Page-Views-Vary">&#182;</a></h3><p>For first case we need same sensitivity
+<img src="number_of_page_views.png" alt=""></p>
+<p>After getting results we need to analyze them
+<img src="analyze_results.png" alt=""></p>
+<p>For various confidence intervals we decide whether we want to launch or whether we don't want to launch the change
 <img src="confidence_intervals.png" alt=""></p>
 <p>In case you are not certain then the risk needs to be communicated to the business decision makers. They need to consider other factors and consider whether they want to launch the test or not.</p>
 
