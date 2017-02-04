@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>lesson_01</title>
+<title>lesson_07</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11751,16 +11751,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-01---Overview-of-A-B-Testing">Lesson 01 - Overview of A B Testing<a class="anchor-link" href="#Lesson-01---Overview-of-A-B-Testing">&#182;</a></h1><h2 id="Course-Overview">Course Overview<a class="anchor-link" href="#Course-Overview">&#182;</a></h2><ul>
-<li>how to run an A/B Test for businesses who have an online presence</li>
-<li>allows you to run possible changes with users and see what performs better</li>
-<li>scientific way to find what works best rather than relying on intuition</li>
-<li>about<ul>
-<li>how to design a test</li>
-<li>choose metrics</li>
-<li>analyze the results</li>
-</ul>
-</li>
+<h1 id="Lesson-07---Sampling-Distributions">Lesson 07 - Sampling Distributions<a class="anchor-link" href="#Lesson-07---Sampling-Distributions">&#182;</a></h1><ul>
+<li>By knowing the mean and standard deviation of normal distribution of a population we can compare any point in the distribution as we can find percentage less than and percentage greater than any value</li>
+<li>We know that measures of center can be used to compare distributions. We can compare distributions of samples with other distributions by finding means</li>
 </ul>
 
 </div>
@@ -11771,171 +11764,58 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Gambling-in-Vegas">Gambling in Vegas<a class="anchor-link" href="#Gambling-in-Vegas">&#182;</a></h2><ul>
+<li>We roll a tetrahedral die (4 sides)</li>
+<li>We can get 1, 2, 3, 4</li>
+<li>Expected value $\mu = (1 + 2 + 3 + 4) / 4 = 2.5 $</li>
+<li>We win the gamble if average of 2 rolls is at least 3</li>
+</ul>
+<p>We have the following cases
+<img src="means.png" alt=""></p>
 <ul>
-<li>Take two set of users and show them different versions<ul>
-<li>One set - control set - will be shown existing product</li>
-<li>Another set - experiment set - will be shown the new product</li>
-</ul>
-</li>
-<li>Isn't useful for testing out new features but rather is meant for whether the change in this feature improved stuff or not</li>
-<li>If the change's results take time to come into effect then A/B Testing won't help. Say you are a house rental website and you want to know how to increase referrals by the user. But referrals don't happen that often. So that would be a really long test if done and thus not so useful.</li>
-</ul>
-<h2 id="Examples-of-A/B-testing-in-industry:">Examples of A/B testing in industry:<a class="anchor-link" href="#Examples-of-A/B-testing-in-industry:">&#182;</a></h2><h3 id="Examples-mentioned-in-the-video:">Examples mentioned in the video:<a class="anchor-link" href="#Examples-mentioned-in-the-video:">&#182;</a></h3><ul>
-<li>Google <a href="http://www.nytimes.com/2009/03/01/business/01marissa.html?pagewanted=3">tested 41 different shades of blue</a>.</li>
-<li>Amazon initially decided to launch their first personalized product recommendations based on an <a href="http://www.exp-platform.com/Documents/GuideControlledExperiments.pdf">A/B test showing a huge revenue increase by adding that feature</a>. (See the second paragraph in the introduction.)</li>
-<li>LinkedIn <a href="http://engineering.linkedin.com/mobile/mobile-ab-testing-linkedin-how-members-shape-our-apps">tested whether to use the top slot on a user's stream for top news articles or an encouragement to add more contacts</a>. (See the first paragraph in "A/B testing with view based JSON" section.)</li>
-<li>Amazon determined that <a href="http://www.exp-platform.com/Documents/IEEEComputer2007OnlineExperiments.pdf">every 100ms increase in page load time decreased sales by 1%</a>. (In "Secondary metrics" section on the last page)</li>
-<li>Google’s <a href="http://googleresearch.blogspot.com/2009/06/speed-matters.html">latency results</a> showed a similar impact for a 100ms delay.</li>
-</ul>
-<h3 id="Other-Examples:">Other Examples:<a class="anchor-link" href="#Other-Examples:">&#182;</a></h3><ul>
-<li>Kayak <a href="http://apptimize.com/blog/2014/03/kayaks-most-interesting-ab-test/">tested whether notifying users that their payment was encrypted would make users more or less likely to complete the payment</a>.</li>
-<li>Khan Academy tests <a href="http://apptimize.com/blog/2014/07/how-khan-academy-uses-ab-testing-to-improve-student-learning/">changes like letting students know how many other students are working on the exercise with them, or making it easier for students to fast-forward past skills they already have</a>. (See the question "What is the most interesting A/B test you've seen so far?")</li>
-</ul>
-<h3 id="When-can-you-use-A/B-Testing">When can you use A/B Testing<a class="anchor-link" href="#When-can-you-use-A/B-Testing">&#182;</a></h3><ul>
-<li>Website selling cars is not a good idea as it will take too long to see whether there is a result</li>
-<li>Should launch Pro service? Not a good option for A/B testing as you cannot assign people randomly to control and experiment as people need to opt-in. </li>
-<li>update brand/logo can be an emotional thing for users and you can do A/B testing but in the long term</li>
-<li>testing layout of page is definitely something that you can A/B Test</li>
-</ul>
-<h3 id="Other-Techniques">Other Techniques<a class="anchor-link" href="#Other-Techniques">&#182;</a></h3><p>Sometimes A/B testing isn't helpful. What to do in those cases?</p>
-<ul>
-<li>can collect data that is complementary to doing A/B test. logs can be analyzed and a hypothesis can be developed and based on that can do </li>
+<li>Mean of sample means (i.e. mean of the above 16 cases) M = 2.5</li>
+<li>Distribution of sample means is Sampling Distribution</li>
+<li>For our case it can be seen at <a href="http://www.wolframalpha.com/input/?i=1,+1.5,+2,+2.5,+1.5,+2,+2.5,+3,+2,+2.5,+3,+3.5,+2.5,+3,+3.5,+4">http://www.wolframalpha.com/input/?i=1,+1.5,+2,+2.5,+1.5,+2,+2.5,+3,+2,+2.5,+3,+3.5,+2.5,+3,+3.5,+4</a></li>
 </ul>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">6</span> <span class="o">/</span> <span class="mi">16</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.375</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>A/B testing has been around a while. e.g. in medicine clinical trials are effectively A/B tests</li>
-</ul>
-<h2 id="Business-Example">Business Example<a class="anchor-link" href="#Business-Example">&#182;</a></h2><p>Audacity makes online courses for finance courses
-<img src="funnel.png" alt=""></p>
-<ul>
-<li>Our experiment would be to test the hypothesis "changing the start now button from orange to pink will increase how many students explore audicty's courses.</li>
-<li>Which metric to choose?<ul>
-<li>total number of courses completed? No as it would take too long to complete</li>
-<li>number of clicks? No as if a group of users visit that page more then it could bias the results</li>
-<li>(no. of clicks) / (no. of page views) - click through rate</li>
-<li>(unique visitors who click) / (unique visitors to page) - click through probability</li>
-</ul>
-</li>
-<li>updated hypothesis is "chaning the start now button from orange to pink will increase the click through probability". Why probability instead of rate?<ul>
-<li>rate should be used when want to measure usability of website. say we have a button then the rate will tell us how often do users actually find that button.</li>
-<li>probability should be used when want to measure the impact. but for finding how often do people go exploring you don't want to take into account page refresh, double clicks etc.</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Which-Distribution">Which Distribution<a class="anchor-link" href="#Which-Distribution">&#182;</a></h2><ul>
-<li>When should we be surprised by the changes in actual results vs. actual results?</li>
-<li>Depends on the distribution</li>
-</ul>
-<h2 id="Binomial-Distribution">Binomial Distribution<a class="anchor-link" href="#Binomial-Distribution">&#182;</a></h2><p>We flip a coin multiple times. We have a probability of how it will turn up. As we keep on increasing the flips it approaches a normal distribution</p>
-<p><img src="binomial_distribution.png" alt=""></p>
-<p>Try using <a href="http://databits.io/bits/fbmx-binomial-distribution">this website</a> to get a better feel for the binomial distribution. At the top, you can choose n (the number of events to generate) and p (the probability of success for each event) for two binomial distributions and compare them. The site will show one distribution as bars and the other as dots, and two graphs will be shown. The top graph shows the probability that exactly some number of successes k will occur for each k, and the bottom graph shows the cumulative probability that at k or fewer successes will occur (so the probability on the far right (k &gt;= n) will always be 1).</p>
-<p>At the bottom, you can play a game where you throw a dice many times (with various definitions of success), keeping track of how many successes come up. This will let you see how the distribution you get resembles the binomial more and more as you keep playing.</p>
-<p><img src="binomial_distribution2.png" alt=""></p>
-<ul>
-<li>We can use the knowledge that we will be using binomaial distribution to find confidence interval. </li>
-<li>This makes it possible for us to find the interval around mean where we expect values to fall</li>
-</ul>
-<h2 id="Bias">Bias<a class="anchor-link" href="#Bias">&#182;</a></h2><p>Estimate of probability</p>
-
-<pre><code>p^ = X / N</code></pre>
-<p>Instead of binomial distribution we can use normal distribution if</p>
-
-<pre><code>N * (p^) &gt; 5
-N * (1 - p^) &gt; 5</code></pre>
-<p>But for small probabilities the first one is more important</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>N = 2000
-X = 300
-
-p^ = (300/2000) = 0.15
-
-N * p^ = 2000 * 0.15 = 300
-N * (1 - p^) = 2000 * 0.85 = 1700
-
-SE = sqrt( (p^ * (1 - p^)) / N ) = sqrt( (0.15 * 0.85) / 2000 ) = 0.007984359711335657
-
-margin of error (m) = SE * z
-                    = 0.00798 * 2.575
-                    = 0.0205485
-
-p^ - m = 0.15 - 0.0205485 = 0.1294515
-p^ + m = 0.15 + 0.0205485 = 0.1705485</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hypothesis-Testing">Hypothesis Testing<a class="anchor-link" href="#Hypothesis-Testing">&#182;</a></h2><p><img src="hypothesis_testing.png" alt=""></p>
-<h3 id="Null-hypothesis">Null hypothesis<a class="anchor-link" href="#Null-hypothesis">&#182;</a></h3><p>Both groups have the same probability of completing a checkout</p>
-<h3 id="Alternate-hypothesis">Alternate hypothesis<a class="anchor-link" href="#Alternate-hypothesis">&#182;</a></h3><p>Both groups have different probability of completing a checkout</p>
-<p><img src="comparing_2_samples.png" alt=""></p>
-<h2 id="Practical,-or-Substantive,-Significance">Practical, or Substantive, Significance<a class="anchor-link" href="#Practical,-or-Substantive,-Significance">&#182;</a></h2><ul>
-<li>From a business perspective what change matters to us?</li>
-<li>A statician would say what is substantive alongwith being statistically significant</li>
-<li>only statistically significance is not enough as that just measures repeatability</li>
-<li>need to measure something from a business perspective also</li>
-</ul>
-<h2 id="Size-vs-Power-Trade-Off">Size vs Power Trade Off<a class="anchor-link" href="#Size-vs-Power-Trade-Off">&#182;</a></h2><ul>
-<li>we want to decide how many people go into the experiment. This is called statistical power</li>
-<li>the smaller the change that you want to detect or higher the confidence that you want to have the more the size needs to be</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-many-page-views">How many page views<a class="anchor-link" href="#How-many-page-views">&#182;</a></h2>
-<pre><code>alpha = P (reject null | null true)
-beta = P (fail to reject null | null false)</code></pre>
-<p>As size increase the distribution gets tighter</p>
-<p><img src="normal.png" alt=""></p>
-<p>thus <code>beta</code> gets lower (as there is less overlap) while <code>alpha</code> remains the same.</p>
-
-<pre><code>sensitivity = 1 - beta</code></pre>
-<h3 id="Calculating-number-of-page-views">Calculating number of page views<a class="anchor-link" href="#Calculating-number-of-page-views">&#182;</a></h3><ul>
-<li>built-in library</li>
-<li>lookup answer in a table</li>
-<li>online calculator</li>
-</ul>
-<p>Statistics textbooks frequently define power to mean the same thing as sensitivity, that is, 1 - beta. However, conversationally power often means the probability that your test draws the correct conclusions, and this probability depends on both alpha and beta. In this course, we'll use the second definition, and we'll use sensitivity to refer to 1 - beta.</p>
-<p>Use <a href="http://www.evanmiller.org/ab-testing/sample-size.html">this calculator</a> to determine how many page views we'll need to collect in our experiment. Make sure to choose an absolute difference, not a relative difference.</p>
-<h3 id="How-Does-Number-of-Page-Views-Vary">How Does Number of Page Views Vary<a class="anchor-link" href="#How-Does-Number-of-Page-Views-Vary">&#182;</a></h3><p><img src="number_of_page_views.png" alt="">
-<img src="confidence_intervals.png" alt=""></p>
-<p>In case you are not certain then the risk needs to be communicated to the business decision makers. They need to consider other factors and consider whether they want to launch the test or not.</p>
+<p>Video 16</p>
 
 </div>
 </div>
