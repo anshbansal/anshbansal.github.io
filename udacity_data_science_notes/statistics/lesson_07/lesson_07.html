@@ -11770,23 +11770,58 @@ div#notebook {
 <li>Expected value $\mu = (1 + 2 + 3 + 4) / 4 = 2.5 $</li>
 <li>We win the gamble if average of 2 rolls is at least 3</li>
 </ul>
+<p>Here we need to note that our population is 4 (1 to 4). And we are taking samples of size 2 from this population.</p>
 <p>We have the following cases
 <img src="means.png" alt=""></p>
+<p>If we take samples of this then we are essentailly taking mean of sampling distribution.</p>
 <ul>
 <li>Mean of sample means (i.e. mean of the above 16 cases) M = 2.5</li>
 <li>Distribution of sample means is Sampling Distribution</li>
 <li>For our case it can be seen at <a href="http://www.wolframalpha.com/input/?i=1,+1.5,+2,+2.5,+1.5,+2,+2.5,+3,+2,+2.5,+3,+3.5,+2.5,+3,+3.5,+4">http://www.wolframalpha.com/input/?i=1,+1.5,+2,+2.5,+1.5,+2,+2.5,+3,+2,+2.5,+3,+3.5,+2.5,+3,+3.5,+4</a></li>
+<li>Taking a lot of samples and finding the mean of sample means we can see that M == $\mu$</li>
+<li>To compare this sample with other sample we also need SD of population.</li>
+<li>Let's call Standard deviation of distribution of sample means of sample size n as SE </li>
+<li>$(\sigma / SE) = \sqrt{n} $</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Central-limit-theorem">Central limit theorem<a class="anchor-link" href="#Central-limit-theorem">&#182;</a></h2><p>For any distribution if we draw a lot of samples and draw their sampling distribution it will turn out to be approximately normal given that the sample size is big enough.
+<img src="central_limit.png" alt=""></p>
+<h2 id="Finding-Standard-error">Finding Standard error<a class="anchor-link" href="#Finding-Standard-error">&#182;</a></h2><p>Let's try and find standard deviation of sampling distribution created when rolling 2 dies and taking their sum.</p>
+<p>The population standard deviation can be found using the STDEVP function in google spreadsheets</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">6</span> <span class="o">/</span> <span class="mi">16</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">mean_standard_deviation</span><span class="p">(</span><span class="n">population</span><span class="p">):</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+    <span class="n">differences</span> <span class="o">=</span> <span class="p">[</span><span class="n">element</span> <span class="o">-</span> <span class="n">mean</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">population</span><span class="p">]</span>
+    <span class="n">squared_differences</span> <span class="o">=</span> <span class="p">[</span><span class="n">diff</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">differences</span><span class="p">]</span>
+    <span class="n">mean_squared_differences</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">squared_differences</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">squared_differences</span><span class="p">)</span>
+    <span class="n">SD</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_difference</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">SD</span>
+
+<span class="k">def</span> <span class="nf">standard_deviation_sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">):</span>
+    <span class="n">mean_population</span><span class="p">,</span> <span class="n">sd_population</span> <span class="o">=</span> <span class="n">mean_standard_deviation</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sd_population</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">standard_deviation_sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">standard_deviation_sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -11797,13 +11832,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.375</pre>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.2076147288491197
+0.7637626158259733
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -11815,7 +11849,9 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Video 16</p>
+<p>As sample size increases the SD of sampling distribution decreases and hence it becomes skinnier.</p>
+<p>Sampling applet is present at <a href="http://onlinestatbook.com/stat_sim/sampling_dist/index.html">http://onlinestatbook.com/stat_sim/sampling_dist/index.html</a></p>
+<h2 id="Importance-of-Sampling-distribution">Importance of Sampling distribution<a class="anchor-link" href="#Importance-of-Sampling-distribution">&#182;</a></h2><p>It helps us find where a sample that we have lies on the sampling distibution. That helps us understand whether our sample is normal or is there anything special going on compared to other possible samples.</p>
 
 </div>
 </div>
