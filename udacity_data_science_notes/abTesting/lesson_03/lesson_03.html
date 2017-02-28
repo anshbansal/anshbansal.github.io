@@ -12165,13 +12165,38 @@ div#notebook {
 <h3 id="Relative-differences-in-probabilities">Relative differences in probabilities<a class="anchor-link" href="#Relative-differences-in-probabilities">&#182;</a></h3><p>For probability metrics, people often use percentage points to refer to absolute differences and percentages to refer to relative differences. For example, if your control click-through-probability were 5%, and your experiment click-through-probability were 7%, the absolute difference would be 2 percentage points, and the relative difference would be 40 percent. However, sometimes people will refer to the absolute difference as a 2 percent change, so if someone gives you a percentage, it's important to clarify whether they mean a relative or absolute difference!</p>
 <h2 id="Variability">Variability<a class="anchor-link" href="#Variability">&#182;</a></h2><ul>
 <li>If we have a metric that varies a lot under normal circumstances then the metric may not be good for us as the practical significance level may not be feasible with this metric</li>
-<li><p>In case we have nice data/simple metrics then the confidence intervals can be calculated theoretically. If the data is not nice/complex metrics (like ratios, percentiles) then it needs to be done empirically
-<img src="variability.png" alt=""></p>
-</li>
-<li><p>Variability of different metrics may vary a lot</p>
-</li>
+<li>In case we have nice data/simple metrics then the confidence intervals can be calculated theoretically. If the data is not nice/complex metrics (like ratios, percentiles) then it needs to be done empirically</li>
+</ul>
+<h3 id="Calculating-Variability">Calculating Variability<a class="anchor-link" href="#Calculating-Variability">&#182;</a></h3><p>To calculate confidence interval we need</p>
+<ul>
+<li>variance (or standard deviation)</li>
+<li>distribution</li>
+</ul>
+<p><img src="variability.png" alt=""></p>
+<ul>
+<li>Variability of different metrics may vary a lot</li>
 <li>Variability of metric depend on the underlying distribution</li>
 <li>Variability can be computed empirically or analytically</li>
+</ul>
+<h2 id="Non-Parameteric-Methods">Non-Parameteric Methods<a class="anchor-link" href="#Non-Parameteric-Methods">&#182;</a></h2><ul>
+<li>Metrics can be calculated without assuming the underlying distributions</li>
+<li>Sign test - Run test multiple times. Note the the number of times there was a difference. Find how likely X times difference was to have occurred by chance</li>
+</ul>
+<h3 id="Calculating-variance-empirically">Calculating variance empirically<a class="anchor-link" href="#Calculating-variance-empirically">&#182;</a></h3><ul>
+<li>calculating variance means makes assumption about underlying data</li>
+<li>for simple distributions we can make assumption but for complex distribution it is better to calculate it empirically</li>
+<li>Uses of A/A test<ul>
+<li>compare result to what you expect (sanity check w.r.t. to analytic estimate) if you cannot make assumption about distribution<ul>
+<li>example present <a href="https://docs.google.com/spreadsheets/d/17wWNY2jkDlG9BDMYQq2l-ku_8HGajXuF2Zvy__dBEL4/edit#gid=0">here</a></li>
+</ul>
+</li>
+<li>if you could make assumption about distribution then you can calculate the variance empirically and then use the assumption about distribution to calculate confidence interval</li>
+<li>directly estimate confidence interval<ul>
+<li><img src="confidence_interval.png" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
 </div>
