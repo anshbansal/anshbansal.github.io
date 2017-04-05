@@ -11751,7 +11751,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Lesson-10a:-t-Tests">Lesson 10a: t-Tests<a class="anchor-link" href="#Lesson-10a:-t-Tests">&#182;</a></h1><h3 id="t-distribution">t-distribution<a class="anchor-link" href="#t-distribution">&#182;</a></h3><p>So far we have assumed that we know $\mu$ and $\sigma$ for our population. But usually we don't know them.  We have samples and we need to use them to see</p>
+<h1 id="Lesson-10:-t-Tests">Lesson 10: t-Tests<a class="anchor-link" href="#Lesson-10:-t-Tests">&#182;</a></h1><h3 id="t-distribution">t-distribution<a class="anchor-link" href="#t-distribution">&#182;</a></h3><p>So far we have assumed that we know $\mu$ and $\sigma$ for our population. But usually we don't know them.  We have samples and we need to use them to see</p>
 <ul>
 <li>how different sample mean is from population</li>
 <li>how different 2 sample means are from each other<ul>
@@ -11794,6 +11794,130 @@ div#notebook {
 </li>
 </ul>
 <p><img src="paired_samples.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Effect-size">Effect size<a class="anchor-link" href="#Effect-size">&#182;</a></h2><ul>
+<li>In experimental studies it means size of treatment effect</li>
+<li>In non-experimental studies it means strength of relationship between variables</li>
+<li>Simplest measure is mean difference. Good for variables with easy to understand meanings</li>
+</ul>
+<h2 id="Type-of-effect-size-measures">Type of effect size measures<a class="anchor-link" href="#Type-of-effect-size-measures">&#182;</a></h2><ul>
+<li>Difference measures<ul>
+<li>Mean difference</li>
+<li>Standardized differences<ul>
+<li>Cohen's d</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Correlation measures<ul>
+<li>$r^2$ <ul>
+<li>proportion of variation in one variable that is related to ("explained by") another variable</li>
+<li>also called coefficient of determination (0.0 to 1.0)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Meaningfulness-of-results">Meaningfulness of results<a class="anchor-link" href="#Meaningfulness-of-results">&#182;</a></h2><ul>
+<li>What was measured? Were the variables had practical, social or theoretical importance?</li>
+<li>Effect size</li>
+<li>Can we rule out random chance?</li>
+<li>Can we rule out alternative explanations?</li>
+</ul>
+<h2 id="Calculating-$r^2$">Calculating $r^2$<a class="anchor-link" href="#Calculating-$r^2$">&#182;</a></h2><p>$r^2 = \frac{t^2}{t^2 + df}$</p>
+<h2 id="Report-Results">Report Results<a class="anchor-link" href="#Report-Results">&#182;</a></h2><ul>
+<li>Descriptive statistics<ul>
+<li>Mean, SD</li>
+<li>as text, graphs, tables</li>
+</ul>
+</li>
+<li>inferential statistics<ul>
+<li>hypothesis test<ul>
+<li>kind of test - 1-sample t-test</li>
+<li>test statistic</li>
+<li>degree of freedom</li>
+<li>p-value</li>
+<li>direction of test</li>
+<li>$\alpha$</li>
+<li>APA style<ul>
+<li>$t(df) = X.XX, p = .XX, direction$</li>
+<li>$t(24) = -2.50, p < .05, one-tailed$</li>
+</ul>
+</li>
+<li>confidence interval<ul>
+<li>confidence level e.g. 95%</li>
+<li>lower limit</li>
+<li>upper limit</li>
+<li>CI on what?</li>
+<li>APA style - CIs<ul>
+<li>Confidence interval on the mean difference; 95% CI = (4, 6)</li>
+<li>Confidence interval on the mean difference; 95% CI = (4 - 6)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>effect size measures<ul>
+<li>d, $r^2$</li>
+<li>$d = X.XX$</li>
+<li>$r^2 = .XX$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Full-one-sample-t-test">Full one-sample t-test<a class="anchor-link" href="#Full-one-sample-t-test">&#182;</a></h2><ul>
+<li>$df = n - 1$</li>
+<li>$SEM = \frac{S}{\sqrt{n}}$</li>
+<li>$t = \frac{\bar{x} - \mu}{SEM}$</li>
+<li>$CI = \bar{x} \pm Margin of error$</li>
+<li><p>$Margin of error = t_{critical} * SEM$</p>
+</li>
+<li><p>Fact for out case - "US families spent an average of $151 per week on food in 2012"</p>
+</li>
+</ul>
+<p>So $\mu = 151$</p>
+<ul>
+<li>We have a group that wants to bring this down</li>
+<li>Dependent variable - amount of money spent per week</li>
+<li>Treatment effect - the cost saving program</li>
+<li>null hypothesis - program did not change the cost of food</li>
+<li>alternative hypothesis - program reduced the cost of food</li>
+</ul>
+<p>$H_o : \mu_{program} \ge 151$</p>
+<p>$H_A : \mu_{program} < 151$</p>
+<p>So we are doing one-tailed t-test in -ve direction</p>
+<ul>
+<li>If we take a sample of 25 people then $df = 24$</li>
+<li>t-critical if $\alpha = 0.05$ = -1.711</li>
+<li>SEM = $\frac{50}{\sqrt{25}} = \frac{50}{5} = 10$</li>
+</ul>
+<p>After the program it was found that $\bar{X} = 126$ the mean difference = 126 - 151 = - 25</p>
+<p>t-statisitc = (126 - 151) / 10 = -2.50</p>
+<p><img src="one_sample.png" alt=""></p>
+<ul>
+<li>Margin of error is for two-tailed test always as we want to check for error on both sides</li>
+<li>Margin of error = 2.064 * SEM = 2.064 - 20.64</li>
+<li>CI = $126 \pm 20.64$</li>
+</ul>
 
 </div>
 </div>
