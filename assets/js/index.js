@@ -1,5 +1,13 @@
 var hrefs = [
     {
+        link: "https://medium.com/@asmbansal2",
+        iconClass: "fa fa-medium"
+    },
+    {
+	link: "https://www.paypal.me/AseemBansal",
+	iconClass: "fa fa-paypal"
+    },
+    {
         link: "https://bitbucket.org/anshbansal92/",
         iconClass: "fa fa-bitbucket"
     },
